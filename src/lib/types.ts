@@ -17,5 +17,16 @@ export const loginSchema = z.object({
   password: z.string().min(1, "Password is required"),
 });
 
+export type Props = {
+  data: dataProps;
+};
+
+export type dataProps = {
+  id: number;
+  content: string | null;
+  email: string | null;
+  isCompleted:boolean;
+};
+
 export type TSignUpSchema = z.infer<typeof signUpSchema>;
 export type TLoginSchema = z.infer<typeof loginSchema>;
