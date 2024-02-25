@@ -3,15 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { editAction } from "@/data-access/todoActions";
 import { useDebounce } from "@/hooks/useDebounce";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-
-type Props = {
-  data: { id: number; content: string | null; email: string | null };
-};
-type dataProps = {
-  id: number;
-  content: string | null;
-  email: string | null;
-};
+import { dataProps, Props } from "@/lib/types";
 
 function EditTodo({ data }: Props) {
   const formRef = useRef<HTMLFormElement>(null);
