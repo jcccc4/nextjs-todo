@@ -9,10 +9,14 @@ function AddTodo() {
     mutationFn: createAction,
     onMutate: async (newTodo) => {
       await queryClient.cancelQueries({ queryKey: ["posts"] });
-      const previousTodos = queryClient.getQueryData(["posts"]);
+      const previousTodos = queryClient.getQueryData(["posts"]); 
       queryClient.setQueryData(["posts"], (old: dataProps[]) => [
         ...old,
-        { authorId: 1, content: newTodo.get("input") as string },
+        {
+          content: newTodo.get("input") as string,
+          boardName: "Ongoing",
+          isCompleted: false,
+        },
       ]);
 
       return { previousTodos };

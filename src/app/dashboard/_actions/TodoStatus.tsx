@@ -20,8 +20,10 @@ function TodoStatus({ data }: Props) {
       const id = newTodo.get("editId") as string;
       queryClient.setQueryData(["posts"], (old: dataProps[]) =>
         old.map((item: dataProps) => {
-          if (item.id !== Number(id)) {
+          console.log(item);
+          if (item.id === Number(id)) {
             item.isCompleted = !isChecked;
+            item.boardName = !isChecked ? "Completed" : "Ongoing";
             return item;
           }
           return item;
@@ -41,7 +43,7 @@ function TodoStatus({ data }: Props) {
         name="editValue"
         type="checkbox"
         checked={isChecked}
-        onChange={(e) => {
+        onChange={() => {
           setIsChecked(!isChecked);
           formRef.current?.requestSubmit();
         }}

@@ -8,7 +8,7 @@ export async function getData() {
   const userEmail = session?.user?.email;
   const data = await prisma.post.findMany({
     where: {
-      email: userEmail,
+      email: userEmail || "",
     },
     orderBy: {
       id: "asc",
@@ -31,9 +31,10 @@ export async function createAction(formData: FormData) {
 
   await prisma.post.create({
     data: {
-      email: userEmail,
+      email: userEmail || "",
       content: input,
       isCompleted: false,
+      boardName: "Ongoing",
     },
   });
 }
@@ -69,13 +70,15 @@ export async function statusAction(formData: FormData) {
       id: Number(id),
     },
   });
-  
+  console.log(id);
+
   await prisma.post.update({
     where: {
       id: Number(id),
     },
     data: {
       isCompleted: !todo?.isCompleted,
+      boardName: !todo?.isCompleted ? "Ongoing" : "Complete",
     },
   });
 }

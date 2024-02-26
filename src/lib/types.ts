@@ -24,8 +24,9 @@ export type Props = {
 export type dataProps = {
   id: number;
   content: string | null;
-  email: string | null;
-  isCompleted:boolean;
+  email: string;
+  boardName: string;
+  isCompleted: boolean;
 };
 
 export type TSignUpSchema = z.infer<typeof signUpSchema>;
