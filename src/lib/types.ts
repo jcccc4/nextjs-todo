@@ -25,8 +25,8 @@ export type dataProps = {
   id: number;
   content: string | null;
   email: string;
-  boardName: string;
   isCompleted: boolean;
+  boardName: string;
 };
 
 export type TSignUpSchema = z.infer<typeof signUpSchema>;

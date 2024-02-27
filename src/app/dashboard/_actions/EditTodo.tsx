@@ -1,22 +1,20 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import { editAction } from "@/data-access/todoActions";
-import { useDebounce } from "@/hooks/useDebounce";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { dataProps, Props } from "@/lib/types";
 
 function EditTodo({ data }: Props) {
   const formRef = useRef<HTMLFormElement>(null);
-  const [firstRender, setFirstRender] = useState(true);
   const [value, setValue] = useState(data.content || "");
-  const debouncedValue = useDebounce(value);
 
   const queryClient = useQueryClient();
 
   const editTodoMutation = useMutation({
     mutationFn: editAction,
     onMutate: async (newTodo) => {
-      await queryClient.cancelQueries({ queryKey: ["posts"] });
+      queryClient.cancelQueries({ queryKey: ["posts"] });
+
       const id = newTodo.get("editId") as string;
 
       queryClient.setQueryData(["posts"], (old: dataProps[]) =>
@@ -33,17 +31,8 @@ function EditTodo({ data }: Props) {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
+    formRef?.current?.requestSubmit();
   };
-
-  useEffect(() => {
-    if (!firstRender) {
-      formRef.current?.requestSubmit();
-    }
-  }, [debouncedValue, firstRender]);
-
-  useEffect(() => {
-    setFirstRender(false);
-  }, []);
 
   return (
     <form

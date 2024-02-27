@@ -6,6 +6,7 @@ import { getServerSession } from "next-auth";
 import Header from "@/components/semantics/Header";
 import QueryProviders from "@/app/QueryProviders";
 import { Suspense } from "react";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -30,6 +31,7 @@ export default async function RootLayout({
               {children}
             </SessionProvider>
           </Suspense>
+          <ReactQueryDevtools initialIsOpen={false} />
         </QueryProviders>
       </body>
     </html>

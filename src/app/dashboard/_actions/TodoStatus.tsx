@@ -18,17 +18,24 @@ function TodoStatus({ data }: Props) {
     onMutate: async (newTodo) => {
       await queryClient.cancelQueries({ queryKey: ["posts"] });
       const id = newTodo.get("editId") as string;
-      queryClient.setQueryData(["posts"], (old: dataProps[]) =>
-        old.map((item: dataProps) => {
-          console.log(item);
+      queryClient.setQueryData(["posts"], (old: dataProps[]) => {
+        let word = "";
+        let test = old.filter((item: dataProps) => {
           if (item.id === Number(id)) {
-            item.isCompleted = !isChecked;
-            item.boardName = !isChecked ? "Completed" : "Ongoing";
-            return item;
+            word = item.content || "";
           }
-          return item;
-        })
-      );
+          return item.id !== Number(id);
+        });
+        console.log(test);
+        return [
+          ...test,
+          {
+            content: word,
+            isCompleted: isChecked,
+            boardName: isChecked ? "Completed" : "Ongoing",
+          },
+        ];
+      });
     },
   });
 

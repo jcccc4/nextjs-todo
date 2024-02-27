@@ -1,15 +1,16 @@
-"use client";
 import { dataProps } from "@/lib/types";
 import React from "react";
 import TodoStatus from "./_actions/TodoStatus";
 import EditTodo from "./_actions/EditTodo";
 import DeleteTodo from "./_actions/DeleteTodo";
-import { useQuery } from "@tanstack/react-query";
-import { getData } from "@/data-access/todoActions";
 
-function TodoItem({ boardName }: { boardName: string }) {
-  const { data } = useQuery({ queryKey: ["posts"], queryFn: getData });
-
+function TodoItem({
+  boardName,
+  data,
+}: {
+  boardName: string;
+  data: dataProps[] | undefined;
+}) {
   return (
     <ul className="max-w-sm mx-auto flex flex-col gap-4">
       {data

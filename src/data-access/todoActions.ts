@@ -70,7 +70,6 @@ export async function statusAction(formData: FormData) {
       id: Number(id),
     },
   });
-  console.log(id);
 
   await prisma.post.update({
     where: {
@@ -78,7 +77,7 @@ export async function statusAction(formData: FormData) {
     },
     data: {
       isCompleted: !todo?.isCompleted,
-      boardName: !todo?.isCompleted ? "Ongoing" : "Complete",
+      boardName: !todo?.isCompleted ? "Completed" : "Ongoing",
     },
   });
 }
