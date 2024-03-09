@@ -1,34 +1,11 @@
 "use client";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+
 import { createAction } from "@/data-access/todoActions";
-import { dataProps } from "@/lib/types";
 
 function AddTodo() {
-  const queryClient = useQueryClient();
-  const addTodoMutation = useMutation({
-    mutationFn: createAction,
-    onMutate: async (newTodo) => {
-      await queryClient.cancelQueries({ queryKey: ["posts"] });
-      const previousTodos = queryClient.getQueryData(["posts"]); 
-      queryClient.setQueryData(["posts"], (old: dataProps[]) => [
-        ...old,
-        {
-          content: newTodo.get("input") as string,
-          boardName: "Ongoing",
-          isCompleted: false,
-        },
-      ]);
-
-      return { previousTodos };
-    },
-    onError: (err, newTodo, context) => {
-      queryClient.setQueryData(["posts"], context?.previousTodos);
-    },
-  });
-
   return (
     <form
-      action={(formData) => addTodoMutation.mutate(formData)}
+      action={createAction}
       className="w-1/2 m-auto"
     >
       <input

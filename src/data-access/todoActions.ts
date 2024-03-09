@@ -2,6 +2,7 @@
 
 import prisma from "@/lib/prisma";
 import { getServerSession } from "next-auth";
+import { revalidatePath } from "next/cache";
 
 export async function getData() {
   const session = await getServerSession();
@@ -14,7 +15,7 @@ export async function getData() {
       id: "asc",
     },
   });
-
+  revalidatePath('/')
   return data;
 }
 
@@ -22,8 +23,6 @@ export async function createAction(formData: FormData) {
   const input = formData.get("input") as string;
   const session = await getServerSession();
   const userEmail = session?.user?.email;
-
-  console.log("userEmail", userEmail);
 
   if (!input.trim()) {
     return;
@@ -37,6 +36,7 @@ export async function createAction(formData: FormData) {
       boardName: "Ongoing",
     },
   });
+  revalidatePath('/dashboard')
 }
 
 export async function editAction(formData: FormData) {
@@ -51,6 +51,7 @@ export async function editAction(formData: FormData) {
       content: content,
     },
   });
+  revalidatePath('/dashboard')
 }
 
 export async function deleteAction(formData: FormData) {
@@ -61,6 +62,7 @@ export async function deleteAction(formData: FormData) {
       id: Number(id),
     },
   });
+  revalidatePath('/dashboard')
 }
 
 export async function statusAction(formData: FormData) {
@@ -80,4 +82,5 @@ export async function statusAction(formData: FormData) {
       boardName: !todo?.isCompleted ? "Completed" : "Ongoing",
     },
   });
+  revalidatePath('/dashboard')
 }

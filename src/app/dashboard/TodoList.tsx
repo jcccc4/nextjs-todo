@@ -1,11 +1,9 @@
-"use client";
 import React from "react";
 import TodoItem from "./TodoItem";
-import { useQuery } from "@tanstack/react-query";
 import { getData } from "@/data-access/todoActions";
 
-function TodoList() {
-  const { data } = useQuery({ queryKey: ["posts"], queryFn: getData });
+async function TodoList() {
+  const data = await getData();
   return (
     <div>
       <div>Ongoing</div>
