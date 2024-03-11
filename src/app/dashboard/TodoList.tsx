@@ -5,11 +5,9 @@ import { getData } from "@/data-access/todoActions";
 async function TodoList() {
   const data = await getData();
   return (
-    <div>
+    <div className="w-full border border-blue-400">
       <div>Ongoing</div>
       <TodoItem boardName={"Ongoing"} data={data} />
-      <div>Completed</div>
-      <TodoItem boardName={"Completed"} data={data} />
     </div>
   );
 }
