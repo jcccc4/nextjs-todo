@@ -29,5 +29,11 @@ export type dataProps = {
   boardName: string;
 };
 
+export type board = {
+  id: number;
+  boardName: string | null;
+  email: string;
+};
+
 export type TSignUpSchema = z.infer<typeof signUpSchema>;
 export type TLoginSchema = z.infer<typeof loginSchema>;

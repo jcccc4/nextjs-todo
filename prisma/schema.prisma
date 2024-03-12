@@ -45,7 +45,7 @@ model VerificationToken {
 model User {
   id            Int       @id @default(autoincrement())
   name          String?
-  email         String?   @unique
+  email         String    @unique
   emailVerified DateTime?
   image         String?
   username      String?   @unique
@@ -58,10 +58,10 @@ model User {
 }
 
 model Board {
-  id        Int     @id @default(autoincrement())
-  boardName String? @unique
+  id        Int    @id @default(autoincrement())
+  boardName String @unique
   email     String
-  author    User    @relation(fields: [email], references: [email])
+  author    User   @relation(fields: [email], references: [email])
   Post      Post[]
 }
 

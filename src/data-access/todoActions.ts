@@ -1,7 +1,9 @@
 "use server";
 
+import { authOptions } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 import { getServerSession } from "next-auth";
+import { useSession } from "next-auth/react";
 import { revalidatePath } from "next/cache";
 
 export async function getData() {
@@ -15,7 +17,7 @@ export async function getData() {
       id: "asc",
     },
   });
-  revalidatePath('/')
+  revalidatePath("/");
   return data;
 }
 
@@ -36,7 +38,7 @@ export async function createAction(formData: FormData) {
       boardName: "Ongoing",
     },
   });
-  revalidatePath('/dashboard')
+  revalidatePath("/dashboard");
 }
 
 export async function editAction(formData: FormData) {
@@ -51,7 +53,7 @@ export async function editAction(formData: FormData) {
       content: content,
     },
   });
-  revalidatePath('/dashboard')
+  revalidatePath("/dashboard");
 }
 
 export async function deleteAction(formData: FormData) {
@@ -62,7 +64,7 @@ export async function deleteAction(formData: FormData) {
       id: Number(id),
     },
   });
-  revalidatePath('/dashboard')
+  revalidatePath("/dashboard");
 }
 
 export async function statusAction(formData: FormData) {
@@ -82,5 +84,17 @@ export async function statusAction(formData: FormData) {
       boardName: !todo?.isCompleted ? "Completed" : "Ongoing",
     },
   });
-  revalidatePath('/dashboard')
+  revalidatePath("/dashboard");
+}
+
+export async function getBoard() {
+  const session = await getServerSession(authOptions);
+
+  const todo = await prisma.board.findMany({
+    where: {
+      email: session?.user?.email || "",
+    },
+  });
+  revalidatePath("/dashboard");
+  return todo;
 }

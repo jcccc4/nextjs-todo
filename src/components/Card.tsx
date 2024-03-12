@@ -1,21 +1,25 @@
-"use client";
 import React from "react";
 
-function Card({ number }: { number: number }) {
-  const dragOver = (e: any) => {
-    e.preventDefault();
-    console.log("dragOver");
+const Card = ({
+  description,
+  id,
+}: {
+  description: string | null;
+  id: number;
+}) => {
+  const onDragStart = (event: React.DragEvent<HTMLLIElement>) => {
+    event.dataTransfer.setData("id", String(id));
   };
 
   return (
-    <div
-      className="min-h-96 min-w-64 bg-orange-400"
+    <li
+      className="mx-2 px-2 border border-black"
       draggable="true"
-      onDragOver={dragOver}
+      onDragStart={onDragStart}
     >
-      {number}
-    </div>
+      {description}
+    </li>
   );
-}
+};
 
 export default Card;
