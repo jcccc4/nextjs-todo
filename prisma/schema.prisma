@@ -66,11 +66,10 @@ model Board {
 }
 
 model Post {
-  id          Int     @id @default(autoincrement())
-  content     String?
-  email       String
-  author      User    @relation(fields: [email], references: [email])
-  isCompleted Boolean
-  boardName   String
-  board       Board   @relation(fields: [boardName], references: [boardName])
+  id        Int     @id @default(autoincrement())
+  content   String?
+  email     String
+  author    User    @relation(fields: [email], references: [email])
+  boardName String
+  board     Board   @relation(fields: [boardName], references: [boardName])
 }

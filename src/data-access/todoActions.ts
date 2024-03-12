@@ -3,7 +3,6 @@
 import { authOptions } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 import { getServerSession } from "next-auth";
-import { useSession } from "next-auth/react";
 import { revalidatePath } from "next/cache";
 
 export async function getData() {
@@ -67,26 +66,6 @@ export async function deleteAction(formData: FormData) {
   revalidatePath("/dashboard");
 }
 
-export async function statusAction(formData: FormData) {
-  const id = formData.get("editId") as string;
-  const todo = await prisma.post.findUnique({
-    where: {
-      id: Number(id),
-    },
-  });
-
-  await prisma.post.update({
-    where: {
-      id: Number(id),
-    },
-    data: {
-      isCompleted: !todo?.isCompleted,
-      boardName: !todo?.isCompleted ? "Completed" : "Ongoing",
-    },
-  });
-  revalidatePath("/dashboard");
-}
-
 export async function getBoard() {
   const session = await getServerSession(authOptions);
 
@@ -97,4 +76,16 @@ export async function getBoard() {
   });
   revalidatePath("/dashboard");
   return todo;
+}
+
+export async function changeBoard(id: string, boardName: string) {
+  await prisma.post.update({
+    where: {
+      id: Number(id),
+    },
+    data: {
+      boardName: boardName,
+    },
+  });
+  revalidatePath("/dashboard");
 }
