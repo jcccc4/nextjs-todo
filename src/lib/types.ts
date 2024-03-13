@@ -35,5 +35,11 @@ export type board = {
   email: string;
 };
 
+export type optimisticArguments = {
+  task?: dataProps;
+  id?: number;
+  boardName: string;
+  action: string;
+};
 export type TSignUpSchema = z.infer<typeof signUpSchema>;
 export type TLoginSchema = z.infer<typeof loginSchema>;

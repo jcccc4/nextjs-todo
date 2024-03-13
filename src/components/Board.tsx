@@ -1,26 +1,54 @@
 "use client";
-import React, { useState } from "react";
+import React, { useOptimistic } from "react";
 import Column from "./Column";
-import { board, dataProps } from "@/lib/types";
+import { board, dataProps, optimisticArguments } from "@/lib/types";
 
 const Board = ({ board, tasks }: { board: board[]; tasks: dataProps[] }) => {
-  const [cards, setCards] = useState<dataProps[]>(tasks);
+  const [optimisticTasks, addOptimisticTasks] = useOptimistic(
+    tasks,
+    (state: dataProps[], optimisticState: optimisticArguments) => {
+      switch (optimisticState.action) {
+        case "changeBoard":
+          // Handle potential empty state or missing id gracefully:
+          return (
+            state?.map((task) =>
+              task?.id === optimisticState.id
+                ? { ...task, boardName: optimisticState.boardName }
+                : task
+            ) || []
+          ); // Return an empty array if state is initially empty
+
+        case "addTask":
+          if (optimisticState.task == undefined) {
+            return state;
+          }
+
+          return [...state, optimisticState.task];
+      }
+
+      return state;
+    }
+  );
   const filterArray = (item: dataProps, boardName: string) =>
     item.boardName === boardName;
 
   return (
     <div className="ml-4 flex gap-4">
       <Column
-        filteredData={cards.filter((item) => filterArray(item, "Ongoing"))}
-        setCards={setCards}
+        filteredData={optimisticTasks.filter((item) =>
+          filterArray(item, "Ongoing")
+        )}
+        addOptimisticTasks={addOptimisticTasks}
         boardName={"Ongoing"}
-        cards={cards}
+        cards={optimisticTasks}
       />
       <Column
-        filteredData={cards.filter((item) => filterArray(item, "Completed"))}
-        setCards={setCards}
+        filteredData={optimisticTasks.filter((item) =>
+          filterArray(item, "Completed")
+        )}
+        addOptimisticTasks={addOptimisticTasks}
         boardName={"Completed"}
-        cards={cards}
+        cards={optimisticTasks}
       />
       {/* {board.map((board: board) => (
         <Column

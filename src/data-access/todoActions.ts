@@ -22,6 +22,8 @@ export async function getData() {
 
 export async function createAction(formData: FormData) {
   const input = formData.get("input") as string;
+  const boardName = formData.get("boardName") as string;
+
   const session = await getServerSession();
   const userEmail = session?.user?.email;
 
@@ -34,7 +36,7 @@ export async function createAction(formData: FormData) {
       email: userEmail || "",
       content: input,
       isCompleted: false,
-      boardName: "Ongoing",
+      boardName: boardName,
     },
   });
   revalidatePath("/dashboard");
@@ -78,10 +80,10 @@ export async function getBoard() {
   return todo;
 }
 
-export async function changeBoard(id: string, boardName: string) {
+export async function changeBoard(id: number, boardName: string) {
   await prisma.post.update({
     where: {
-      id: Number(id),
+      id: id,
     },
     data: {
       boardName: boardName,
