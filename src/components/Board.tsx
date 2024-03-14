@@ -9,20 +9,17 @@ const Board = ({ board, tasks }: { board: board[]; tasks: dataProps[] }) => {
     (state: dataProps[], optimisticState: optimisticArguments) => {
       switch (optimisticState.action) {
         case "changeBoard":
-          // Handle potential empty state or missing id gracefully:
           return (
             state?.map((task) =>
               task?.id === optimisticState.id
                 ? { ...task, boardName: optimisticState.boardName }
                 : task
             ) || []
-          ); // Return an empty array if state is initially empty
-
+          );
         case "addTask":
           if (optimisticState.task == undefined) {
             return state;
           }
-
           return [...state, optimisticState.task];
       }
 

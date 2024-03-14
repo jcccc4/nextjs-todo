@@ -22,10 +22,9 @@ export type Props = {
 };
 
 export type dataProps = {
-  id: number;
+  id: string;
   content: string | null;
   email: string;
-  isCompleted: boolean;
   boardName: string;
 };
 
@@ -37,7 +36,7 @@ export type board = {
 
 export type optimisticArguments = {
   task?: dataProps;
-  id?: number;
+  id?: string;
   boardName: string;
   action: string;
 };

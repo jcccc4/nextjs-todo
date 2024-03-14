@@ -20,7 +20,8 @@ export async function getData() {
   return data;
 }
 
-export async function createAction(formData: FormData) {
+export async function createAction(formData: FormData, email: string) {
+  const id = formData.get("id") as string;
   const input = formData.get("input") as string;
   const boardName = formData.get("boardName") as string;
 
@@ -33,9 +34,9 @@ export async function createAction(formData: FormData) {
 
   await prisma.post.create({
     data: {
+      id: id,
       email: userEmail || "",
       content: input,
-      isCompleted: false,
       boardName: boardName,
     },
   });
@@ -48,7 +49,7 @@ export async function editAction(formData: FormData) {
 
   await prisma.post.update({
     where: {
-      id: Number(id),
+      id: id,
     },
     data: {
       content: content,
@@ -62,7 +63,7 @@ export async function deleteAction(formData: FormData) {
 
   await prisma.post.delete({
     where: {
-      id: Number(id),
+      id: id,
     },
   });
   revalidatePath("/dashboard");
@@ -80,7 +81,7 @@ export async function getBoard() {
   return todo;
 }
 
-export async function changeBoard(id: number, boardName: string) {
+export async function changeBoard(id: string, boardName: string) {
   await prisma.post.update({
     where: {
       id: id,

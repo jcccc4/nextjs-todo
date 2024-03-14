@@ -5,7 +5,7 @@ const Card = ({
   id,
 }: {
   description: string | null;
-  id: number;
+  id: string;
 }) => {
   const onDragStart = (event: React.DragEvent<HTMLLIElement>) => {
     event.dataTransfer.setData("id", String(id));

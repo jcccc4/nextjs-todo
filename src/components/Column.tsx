@@ -20,7 +20,7 @@ const Column = ({ filteredData, addOptimisticTasks, boardName }: Props) => {
     boardName: string
   ) => {
     (e.currentTarget as HTMLDivElement).classList.remove("border-red-500");
-    let id = Number(e.dataTransfer.getData("id"));
+    let id = e.dataTransfer.getData("id");
     addOptimisticTasks({ id, boardName, action: "changeBoard" });
     await changeBoard(id, boardName);
   };
