@@ -9,7 +9,6 @@ const Page = () => {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-    getValues,
     setError,
   } = useForm<TSignUpSchema>({
     resolver: zodResolver(signUpSchema),

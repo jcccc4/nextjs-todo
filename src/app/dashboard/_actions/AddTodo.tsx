@@ -1,36 +1,32 @@
 "use client";
 
 import { createAction } from "@/data-access/todoActions";
-import { authOptions } from "@/lib/auth";
-import { optimisticArguments } from "@/lib/types";
+import { addTodoProps } from "@/lib/types";
 import { useSession } from "next-auth/react";
 import { v4 as uuidv4 } from "uuid";
 
-function AddTodo({
-  boardName,
-  addOptimisticTasks,
-}: {
-  boardName: string;
-  addOptimisticTasks: (data: optimisticArguments) => void;
-}) {
+function AddTodo({ boardName, addOptimisticTasks, taskLength }: addTodoProps) {
+  console.log(taskLength);
   const { data: session } = useSession();
   const createTask = async (formData: FormData) => {
     const id = formData.get("id") as string;
     const content = formData.get("input") as string;
     const boardName = formData.get("boardName") as string;
     const email = session?.user.email || "";
-
+    const order = taskLength + 1;
+    console.log(taskLength);
     addOptimisticTasks({
       boardName: boardName,
       action: "addTask",
       task: {
         id: id,
+        order,
         content,
         email: email,
         boardName,
       },
     });
-    await createAction(formData, email);
+    await createAction(formData, { email, order });
   };
   return (
     <form action={createTask} className=" mx-2">

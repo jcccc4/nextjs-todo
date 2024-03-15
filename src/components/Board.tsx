@@ -31,7 +31,7 @@ const Board = ({ board, tasks }: { board: board[]; tasks: dataProps[] }) => {
 
   return (
     <div className="ml-4 flex gap-4">
-      <Column
+      {/* <Column
         filteredData={optimisticTasks.filter((item) =>
           filterArray(item, "Ongoing")
         )}
@@ -46,15 +46,17 @@ const Board = ({ board, tasks }: { board: board[]; tasks: dataProps[] }) => {
         addOptimisticTasks={addOptimisticTasks}
         boardName={"Completed"}
         cards={optimisticTasks}
-      />
-      {/* {board.map((board: board) => (
+      /> */}
+      {board.map((board: board) => (
         <Column
-          filteredData={cards.filter((item) => filterArray(item, "done"))}
-          setCards={setCards}
-          boardName={board.boardName}
-          cards={cards}
+          filteredData={optimisticTasks.filter((item) =>
+            filterArray(item, board.boardName )
+          )}
+          addOptimisticTasks={addOptimisticTasks}
+          boardName={board.boardName || ""}
+          cards={optimisticTasks}
         />
-      ))} */}
+      ))}
     </div>
   );
 };

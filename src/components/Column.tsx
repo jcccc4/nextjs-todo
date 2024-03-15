@@ -20,6 +20,7 @@ const Column = ({ filteredData, addOptimisticTasks, boardName }: Props) => {
     boardName: string
   ) => {
     (e.currentTarget as HTMLDivElement).classList.remove("border-red-500");
+    console.log(filteredData);
     let id = e.dataTransfer.getData("id");
     addOptimisticTasks({ id, boardName, action: "changeBoard" });
     await changeBoard(id, boardName);
@@ -39,12 +40,17 @@ const Column = ({ filteredData, addOptimisticTasks, boardName }: Props) => {
         className="flex flex-col gap-2"
         key={`${boardName}-${filteredData.length}`}
       >
-        {filteredData.map((item: dataProps) => (
-          <Card description={item.content} id={item.id} key={item.id} />
-        ))}
+        {filteredData
+          .sort((a, b) => {
+            return a.order - b.order;
+          })
+          .map((item: dataProps) => (
+            <Card description={item.content} id={item.id} key={item.id} />
+          ))}
         <AddTodo
           boardName={boardName}
           addOptimisticTasks={addOptimisticTasks}
+          taskLength={filteredData.length}
         />
       </ul>
     </div>

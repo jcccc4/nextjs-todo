@@ -2,6 +2,8 @@
 
 import { authOptions } from "@/lib/auth";
 import prisma from "@/lib/prisma";
+import { v4 as uuidv4 } from "uuid";
+
 import { getServerSession } from "next-auth";
 import { revalidatePath } from "next/cache";
 
@@ -20,22 +22,24 @@ export async function getData() {
   return data;
 }
 
-export async function createAction(formData: FormData, email: string) {
+export async function createAction(
+  formData: FormData,
+  { email, order }: { email: string; order: number }
+) {
   const id = formData.get("id") as string;
   const input = formData.get("input") as string;
   const boardName = formData.get("boardName") as string;
 
-  const session = await getServerSession();
-  const userEmail = session?.user?.email;
-
   if (!input.trim()) {
     return;
   }
+  console.log(boardName);
 
   await prisma.post.create({
     data: {
       id: id,
-      email: userEmail || "",
+      order: order,
+      email: email || "",
       content: input,
       boardName: boardName,
     },
@@ -80,7 +84,6 @@ export async function getBoard() {
   revalidatePath("/dashboard");
   return todo;
 }
-
 export async function changeBoard(id: string, boardName: string) {
   await prisma.post.update({
     where: {
@@ -88,6 +91,16 @@ export async function changeBoard(id: string, boardName: string) {
     },
     data: {
       boardName: boardName,
+    },
+  });
+  revalidatePath("/dashboard");
+}
+export async function createBoard(boardName: string, email: string) {
+  await prisma.board.create({
+    data: {
+      id: uuidv4(),
+      boardName,
+      email,
     },
   });
   revalidatePath("/dashboard");

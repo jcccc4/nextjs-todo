@@ -23,22 +23,25 @@ export type Props = {
 
 export type dataProps = {
   id: string;
+  order: number;
   content: string | null;
   email: string;
   boardName: string;
 };
 
-export type board = {
-  id: number;
-  boardName: string | null;
-  email: string;
-};
+export type board = { id: string; boardName: string; email: string | null };
 
 export type optimisticArguments = {
   task?: dataProps;
   id?: string;
   boardName: string;
   action: string;
+};
+
+export type addTodoProps = {
+  boardName: string;
+  addOptimisticTasks: (data: optimisticArguments) => void;
+  taskLength: number;
 };
 export type TSignUpSchema = z.infer<typeof signUpSchema>;
 export type TLoginSchema = z.infer<typeof loginSchema>;

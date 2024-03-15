@@ -58,16 +58,17 @@ model User {
 }
 
 model Board {
-  id        Int    @id @default(autoincrement())
-  boardName String @unique
-  email     String
-  author    User   @relation(fields: [email], references: [email])
+  id        String  @unique
+  boardName String  @unique
+  email     String?
+  author    User?   @relation(fields: [email], references: [email])
   Post      Post[]
 }
 
 model Post {
-  id        String     @unique
+  id        String  @unique
   content   String?
+  order     Int
   email     String
   author    User    @relation(fields: [email], references: [email])
   boardName String
