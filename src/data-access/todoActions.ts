@@ -84,12 +84,13 @@ export async function getBoard() {
   revalidatePath("/dashboard");
   return todo;
 }
-export async function changeBoard(id: string, boardName: string) {
+export async function changeBoard(id: string, boardName: string, order:number) {
   await prisma.post.update({
     where: {
       id: id,
     },
     data: {
+      order:order,
       boardName: boardName,
     },
   });

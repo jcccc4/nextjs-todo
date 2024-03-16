@@ -36,6 +36,7 @@ export type optimisticArguments = {
   id?: string;
   boardName: string;
   action: string;
+  order?: number;
 };
 
 export type addTodoProps = {

@@ -10,11 +10,20 @@ const Board = ({ board, tasks }: { board: board[]; tasks: dataProps[] }) => {
       switch (optimisticState.action) {
         case "changeBoard":
           return (
-            state?.map((task) =>
-              task?.id === optimisticState.id
-                ? { ...task, boardName: optimisticState.boardName }
-                : task
-            ) || []
+            state?.map((task) => {
+              if (
+                task?.id === optimisticState.id &&
+                optimisticState.boardName !== task.boardName
+              ) {
+                const order =
+                  state.filter(
+                    (state) => state.boardName === optimisticState.boardName
+                  ).length + 1;
+                  console.log(order)
+                return { ...task, order, boardName: optimisticState.boardName };
+              }
+              return task;
+            }) || []
           );
         case "addTask":
           if (optimisticState.task == undefined) {
@@ -31,7 +40,7 @@ const Board = ({ board, tasks }: { board: board[]; tasks: dataProps[] }) => {
 
   return (
     <div className="ml-4 flex gap-4">
-      {/* <Column
+      <Column
         filteredData={optimisticTasks.filter((item) =>
           filterArray(item, "Ongoing")
         )}
@@ -46,8 +55,8 @@ const Board = ({ board, tasks }: { board: board[]; tasks: dataProps[] }) => {
         addOptimisticTasks={addOptimisticTasks}
         boardName={"Completed"}
         cards={optimisticTasks}
-      /> */}
-      {board.map((board: board) => (
+      />
+      {/* {board.map((board: board) => (
         <Column
           filteredData={optimisticTasks.filter((item) =>
             filterArray(item, board.boardName )
@@ -56,7 +65,7 @@ const Board = ({ board, tasks }: { board: board[]; tasks: dataProps[] }) => {
           boardName={board.boardName || ""}
           cards={optimisticTasks}
         />
-      ))}
+      ))} */}
     </div>
   );
 };

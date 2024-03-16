@@ -9,7 +9,7 @@ type Props = {
   boardName: string;
   cards: dataProps[];
 };
-const Column = ({ filteredData, addOptimisticTasks, boardName }: Props) => {
+const Column = ({ filteredData, addOptimisticTasks, boardName,cards }: Props) => {
   const onDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     (e.currentTarget as HTMLDivElement).classList.add("border-red-500");
 
@@ -22,8 +22,17 @@ const Column = ({ filteredData, addOptimisticTasks, boardName }: Props) => {
     (e.currentTarget as HTMLDivElement).classList.remove("border-red-500");
     console.log(filteredData);
     let id = e.dataTransfer.getData("id");
-    addOptimisticTasks({ id, boardName, action: "changeBoard" });
-    await changeBoard(id, boardName);
+    const order = filteredData.length + 1;
+    const isBoardSame =cards.some((item) =>item.id=== id&& item.boardName === boardName);
+    if(!isBoardSame){
+    addOptimisticTasks({
+      id,
+      boardName,
+      action: "changeBoard",
+      order,
+    });
+
+    await changeBoard(id, boardName, order);}
   };
 
   return (

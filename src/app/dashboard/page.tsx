@@ -7,13 +7,11 @@ import { createBoard, getBoard, getData } from "@/data-access/todoActions";
 async function Page() {
   const session = await getServerSession(authOptions);
   const data = await getBoard();
-  if (data.length === 0) {
-    console.log(session?.user.email)
-    await createBoard("Ongoing", session?.user.email || "");
-    await createBoard("Completed", session?.user.email || "");
-  }
+  // if (data.length === 0) {
+  //   await createBoard("Ongoing", session?.user.email || "");
+  //   await createBoard("Completed", session?.user.email || "");
+  // }
   const tasks = await getData();
-  console.log(data);
   if (session) {
     return <Board board={data} tasks={tasks} />;
   }

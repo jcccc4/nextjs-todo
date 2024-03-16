@@ -14,7 +14,6 @@ function AddTodo({ boardName, addOptimisticTasks, taskLength }: addTodoProps) {
     const boardName = formData.get("boardName") as string;
     const email = session?.user.email || "";
     const order = taskLength + 1;
-    console.log(taskLength);
     addOptimisticTasks({
       boardName: boardName,
       action: "addTask",
