@@ -33,7 +33,6 @@ export async function createAction(
   if (!input.trim()) {
     return;
   }
-  console.log(boardName);
 
   await prisma.post.create({
     data: {
@@ -84,13 +83,17 @@ export async function getBoard() {
   revalidatePath("/dashboard");
   return todo;
 }
-export async function changeBoard(id: string, boardName: string, order:number) {
+export async function changeBoard(
+  id: string,
+  boardName: string,
+  order: number
+) {
   await prisma.post.update({
     where: {
       id: id,
     },
     data: {
-      order:order,
+      order: order,
       boardName: boardName,
     },
   });
