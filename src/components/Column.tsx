@@ -20,7 +20,6 @@ const Column = ({ filteredData, addOptimisticTasks, boardName,cards }: Props) =>
     boardName: string
   ) => {
     (e.currentTarget as HTMLDivElement).classList.remove("border-red-500");
-    console.log(filteredData);
     let id = e.dataTransfer.getData("id");
     const order = filteredData.length + 1;
     const isBoardSame =cards.some((item) =>item.id=== id&& item.boardName === boardName);

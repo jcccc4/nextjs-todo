@@ -6,7 +6,6 @@ import { useSession } from "next-auth/react";
 import { v4 as uuidv4 } from "uuid";
 
 function AddTodo({ boardName, addOptimisticTasks, taskLength }: addTodoProps) {
-  console.log(taskLength);
   const { data: session } = useSession();
   const createTask = async (formData: FormData) => {
     const id = formData.get("id") as string;

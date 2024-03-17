@@ -19,7 +19,7 @@ const Board = ({ board, tasks }: { board: board[]; tasks: dataProps[] }) => {
                   state.filter(
                     (state) => state.boardName === optimisticState.boardName
                   ).length + 1;
-                  console.log(order)
+    
                 return { ...task, order, boardName: optimisticState.boardName };
               }
               return task;
