@@ -3,12 +3,15 @@ import React from "react";
 const Card = ({
   description,
   id,
+  order,
 }: {
   description: string | null;
   id: string;
+  order: number;
 }) => {
   const onDragStart = (event: React.DragEvent<HTMLLIElement>) => {
     event.dataTransfer.setData("id", String(id));
+    event.dataTransfer.setData("order", String(order));
   };
 
   return (

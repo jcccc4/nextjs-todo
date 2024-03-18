@@ -10,20 +10,38 @@ const Board = ({ board, tasks }: { board: board[]; tasks: dataProps[] }) => {
       switch (optimisticState.action) {
         case "changeBoard":
           return (
-            state?.map((task) => {
-              if (
-                task?.id === optimisticState.id &&
-                optimisticState.boardName !== task.boardName
-              ) {
-                const order =
-                  state.filter(
-                    (state) => state.boardName === optimisticState.boardName
-                  ).length + 1;
-    
-                return { ...task, order, boardName: optimisticState.boardName };
-              }
-              return task;
-            }) || []
+            state
+              ?.sort((item, comparator) => item.order - comparator.order)
+              .map((task, index) => {
+                if (
+                  optimisticState?.order !== undefined &&
+                  optimisticState?.order >= task.order &&
+                  optimisticState.boardName === task.boardName
+                ) {
+                  return {
+                    ...task,
+                    order: index + 1,
+                    boardName: optimisticState.boardName,
+                  };
+                }
+
+                if (
+                  task?.id === optimisticState.id &&
+                  optimisticState.boardName !== task.boardName
+                ) {
+                  const order =
+                    state.filter(
+                      (state) => state.boardName === optimisticState.boardName
+                    ).length + 1;
+
+                  return {
+                    ...task,
+                    order,
+                    boardName: optimisticState.boardName,
+                  };
+                }
+                return task;
+              }) || []
           );
         case "addTask":
           if (optimisticState.task == undefined) {

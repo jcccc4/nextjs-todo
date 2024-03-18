@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 
 import { getServerSession } from "next-auth";
 import { revalidatePath } from "next/cache";
+import { dataProps } from "@/lib/types";
 
 export async function getData() {
   const session = await getServerSession();
@@ -86,7 +87,8 @@ export async function getBoard() {
 export async function changeBoard(
   id: string,
   boardName: string,
-  order: number
+  order: number,
+  argumentArray: dataProps[]
 ) {
   await prisma.post.update({
     where: {
@@ -99,6 +101,7 @@ export async function changeBoard(
   });
   revalidatePath("/dashboard");
 }
+
 export async function createBoard(boardName: string, email: string) {
   await prisma.board.create({
     data: {
