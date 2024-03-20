@@ -31,7 +31,6 @@ const Column = ({
     const isBoardSame = cards.some(
       (item) => item.id === id && item.boardName === boardName
     );
-    console.log("order: " + formerOrder);
     if (!isBoardSame) {
       addOptimisticTasks({
         id,
