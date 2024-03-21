@@ -26,8 +26,11 @@ const Column = ({
   ) => {
     (e.currentTarget as HTMLDivElement).classList.remove("border-red-500");
     const id = e.dataTransfer.getData("id");
-    const formerOrder = e.dataTransfer.getData("");
+    const formerBoardName = e.dataTransfer.getData("boardName");
+    const formerOrder = e.dataTransfer.getData("order");
+
     const order = filteredData.length + 1;
+    const data = { id, boardName, formerBoardName, order, formerOrder };
     const isBoardSame = cards.some(
       (item) => item.id === id && item.boardName === boardName
     );
@@ -38,10 +41,8 @@ const Column = ({
         action: "changeBoard",
         order,
       });
-      const argumentArray = filteredData
-        .sort((item, comparator) => item.order - comparator.order)
-        .filter((item) => item.order >= Number(formerOrder));
-      await changeBoard(id, boardName, order, argumentArray);
+
+      await changeBoard(data);
     }
   };
 
@@ -69,6 +70,7 @@ const Column = ({
               id={item.id}
               order={item.order}
               key={item.id}
+              board={boardName}
             />
           ))}
         <AddTodo

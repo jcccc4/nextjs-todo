@@ -84,12 +84,19 @@ export async function getBoard() {
   revalidatePath("/dashboard");
   return todo;
 }
-export async function changeBoard(
-  id: string,
-  boardName: string,
-  order: number,
-  argumentArray: dataProps[]
-) {
+export async function changeBoard({
+  id,
+  boardName,
+  formerBoardName,
+  order,
+  formerOrder,
+}: {
+  id: string;
+  boardName: string;
+  formerBoardName: string;
+  order: number;
+  formerOrder: string;
+}) {
   await prisma.post.update({
     where: {
       id: id,
