@@ -6,7 +6,6 @@ import { v4 as uuidv4 } from "uuid";
 
 import { getServerSession } from "next-auth";
 import { revalidatePath } from "next/cache";
-import { dataProps } from "@/lib/types";
 
 export async function getData() {
   const session = await getServerSession();

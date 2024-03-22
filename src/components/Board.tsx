@@ -1,9 +1,9 @@
 "use client";
 import React, { useOptimistic } from "react";
 import Column from "./Column";
-import { board, dataProps, optimisticArguments } from "@/lib/types";
+import { dataProps, optimisticArguments } from "@/lib/types";
 
-const Board = ({ board, tasks }: { board: board[]; tasks: dataProps[] }) => {
+const Board = ({ tasks }: { tasks: dataProps[] }) => {
   const [optimisticTasks, addOptimisticTasks] = useOptimistic(
     tasks,
     (state: dataProps[], optimisticState: optimisticArguments) => {
@@ -74,6 +74,7 @@ const Board = ({ board, tasks }: { board: board[]; tasks: dataProps[] }) => {
         boardName={"Completed"}
         cards={optimisticTasks}
       />
+      //Create an array of unique board names
       {/* {board.map((board: board) => (
         <Column
           filteredData={optimisticTasks.filter((item) =>

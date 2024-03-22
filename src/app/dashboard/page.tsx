@@ -6,10 +6,9 @@ import { getBoard, getData } from "@/data-access/todoActions";
 
 async function Page() {
   const session = await getServerSession(authOptions);
-  const data = await getBoard();
-  const tasks = await getData();
+  const tasks = await getData(); // remove getBoard and make filter it
   if (session) {
-    return <Board board={data} tasks={tasks} />;
+    return <Board tasks={tasks} />;
   }
 }
 
