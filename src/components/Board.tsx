@@ -55,7 +55,7 @@ const Board = ({ tasks }: { tasks: dataProps[] }) => {
   );
   const filterArray = (item: dataProps, boardName: string) =>
     item.boardName === boardName;
-
+  //Create an array of unique board names
   return (
     <div className="ml-4 flex gap-4">
       <Column
@@ -74,7 +74,7 @@ const Board = ({ tasks }: { tasks: dataProps[] }) => {
         boardName={"Completed"}
         cards={optimisticTasks}
       />
-      //Create an array of unique board names
+
       {/* {board.map((board: board) => (
         <Column
           filteredData={optimisticTasks.filter((item) =>
