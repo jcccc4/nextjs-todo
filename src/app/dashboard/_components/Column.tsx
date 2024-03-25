@@ -27,10 +27,18 @@ const Column = ({
     (e.currentTarget as HTMLDivElement).classList.remove("border-red-500");
     const id = e.dataTransfer.getData("id");
     const formerBoardName = e.dataTransfer.getData("boardName");
-    const formerOrder = e.dataTransfer.getData("order");
+    const formerOrder = Number(e.dataTransfer.getData("order"));
 
     const order = filteredData.length + 1;
-    const data = { id, boardName, formerBoardName, order, formerOrder };
+    const data = {
+      id,
+      boardName,
+      formerBoardName,
+      order,
+      formerOrder,
+      cards,
+      action: "changeBoard",
+    };
     const isBoardSame = cards.some(
       (item) => item.id === id && item.boardName === boardName
     );
@@ -38,8 +46,11 @@ const Column = ({
       addOptimisticTasks({
         id,
         boardName,
-        action: "changeBoard",
+        formerBoardName,
         order,
+        formerOrder,
+        cards,
+        action: "changeBoard",
       });
 
       await changeBoard(data);

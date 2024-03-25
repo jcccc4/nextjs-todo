@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 
 import { getServerSession } from "next-auth";
 import { revalidatePath } from "next/cache";
+import { dataProps } from "@/lib/types";
 
 export async function getData() {
   const session = await getServerSession();
@@ -89,22 +90,43 @@ export async function changeBoard({
   formerBoardName,
   order,
   formerOrder,
+  cards,
 }: {
   id: string;
   boardName: string;
   formerBoardName: string;
   order: number;
-  formerOrder: string;
+  formerOrder: number;
+  cards: dataProps[];
 }) {
-  await prisma.post.update({
-    where: {
-      id: id,
-    },
-    data: {
-      order: order,
-      boardName: boardName,
-    },
-  });
+  const batch = cards
+    .filter((data) => {
+      return data.boardName === formerBoardName && data.order > formerOrder;
+    })
+    .sort((a, b) => a.order - b.order)
+    .map((data, index) => {
+      return prisma.post.update({
+        where: {
+          id: data.id,
+        },
+        data: {
+          order: formerOrder + index,
+        },
+      });
+    });
+
+  await prisma.$transaction([
+    prisma.post.update({
+      where: {
+        id: id,
+      },
+      data: {
+        order: order,
+        boardName,
+      },
+    }),
+    ...batch,
+  ]);
   revalidatePath("/dashboard");
 }
 

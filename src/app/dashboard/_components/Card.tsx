@@ -9,7 +9,7 @@ const Card = ({
   description: string | null;
   id: string;
   order: number;
-  board:string;
+  board: string;
 }) => {
   const onDragStart = (event: React.DragEvent<HTMLLIElement>) => {
     event.dataTransfer.setData("id", String(id));

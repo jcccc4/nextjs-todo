@@ -26,21 +26,23 @@ export type dataProps = {
   order: number;
   content: string | null;
   email: string;
-  boardName: string;
+  boardName: string | undefined;
 };
-
 export type board = { id: string; boardName: string; email: string | null };
 
 export type optimisticArguments = {
   task?: dataProps;
+  formerBoardName?: string;
+  formerOrder?: number;
+  cards?: dataProps[];
   id?: string;
-  boardName: string;
+  boardName?: string | undefined;
   action: string;
   order?: number;
 };
 
 export type addTodoProps = {
-  boardName: string;
+  boardName?: string | undefined;
   addOptimisticTasks: (data: optimisticArguments) => void;
   taskLength: number;
 };
