@@ -13,14 +13,14 @@ function AddTodo({ boardName, addOptimisticTasks, taskLength }: addTodoProps) {
     const boardName = formData.get("boardName") as string;
     const email = session?.user.email || "";
     const order = taskLength + 1;
-    
+
     addOptimisticTasks({
       action: "addTask",
-      task: {
-        id: id,
+      data: {
+        id,
         order,
         content,
-        email: email,
+        email,
         boardName,
       },
     });
@@ -29,6 +29,7 @@ function AddTodo({ boardName, addOptimisticTasks, taskLength }: addTodoProps) {
   return (
     <form action={createTask} className=" mx-2">
       <input name="boardName" type="hidden" value={boardName} />
+      <input name="id" type="hidden" value={uuidv4()} />
       <input name="id" type="hidden" value={uuidv4()} />
       <input
         id="createTask"

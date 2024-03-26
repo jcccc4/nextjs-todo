@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useTransition } from "react";
 import Card from "./Card";
 import { dataProps, optimisticArguments } from "@/lib/types";
 import { changeBoard } from "@/data-access/todoActions";
@@ -15,6 +15,7 @@ const Column = ({
   boardName,
   cards,
 }: Props) => {
+  const [isPending, startTransition] = useTransition();
   const onDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     (e.currentTarget as HTMLDivElement).classList.add("border-red-500");
 
@@ -26,34 +27,28 @@ const Column = ({
   ) => {
     (e.currentTarget as HTMLDivElement).classList.remove("border-red-500");
     const id = e.dataTransfer.getData("id");
-    const formerBoardName = e.dataTransfer.getData("boardName");
-    const formerOrder = Number(e.dataTransfer.getData("order"));
-
-    const order = filteredData.length + 1;
-    const data = {
-      id,
-      boardName,
-      formerBoardName,
-      order,
-      formerOrder,
+    const data = cards.find((item) => item.id === id);
+    const newOrder = filteredData.length + 1;
+    const datas = {
+      data,
+      newBoardName: boardName,
+      newOrder,
       cards,
-      action: "changeBoard",
     };
     const isBoardSame = cards.some(
       (item) => item.id === id && item.boardName === boardName
     );
     if (!isBoardSame) {
-      addOptimisticTasks({
-        id,
-        boardName,
-        formerBoardName,
-        order,
-        formerOrder,
-        cards,
-        action: "changeBoard",
-      });
+      startTransition(() =>
+        addOptimisticTasks({
+          data,
+          newBoardName: boardName,
+          newOrder,
+          action: "changeBoard",
+        })
+      );
 
-      await changeBoard(data);
+      await changeBoard(datas);
     }
   };
 

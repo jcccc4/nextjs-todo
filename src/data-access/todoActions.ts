@@ -37,11 +37,11 @@ export async function createAction(
 
   await prisma.post.create({
     data: {
-      id: id,
-      order: order,
-      email: email || "",
+      id,
+      order,
+      email,
       content: input,
-      boardName: boardName,
+      boardName,
     },
   });
   revalidatePath("/dashboard");
@@ -85,48 +85,46 @@ export async function getBoard() {
   return todo;
 }
 export async function changeBoard({
-  id,
-  boardName,
-  formerBoardName,
-  order,
-  formerOrder,
+  data,
+  newBoardName,
+  newOrder,
   cards,
 }: {
-  id: string;
-  boardName: string;
-  formerBoardName: string;
-  order: number;
-  formerOrder: number;
+  data: dataProps | undefined;
+  newBoardName: string;
+  newOrder: number;
   cards: dataProps[];
 }) {
   const batch = cards
-    .filter((data) => {
-      return data.boardName === formerBoardName && data.order > formerOrder;
+    .filter((single) => {
+      return (
+        data && data.boardName === data.boardName && single.order > data.order
+      );
     })
-    .sort((a, b) => a.order - b.order)
-    .map((data, index) => {
+    .map((data) => {
       return prisma.post.update({
         where: {
           id: data.id,
         },
         data: {
-          order: formerOrder + index,
+          order: --data.order,
         },
       });
     });
-
-  await prisma.$transaction([
-    prisma.post.update({
-      where: {
-        id: id,
-      },
-      data: {
-        order: order,
-        boardName,
-      },
-    }),
-    ...batch,
-  ]);
+  if (data) {
+    await prisma.$transaction([
+      prisma.post.update({
+        where: {
+          id: data.id,
+        },
+        data: {
+          order: newOrder,
+          boardName: newBoardName,
+        },
+      }),
+      ...batch,
+    ]);
+  }
   revalidatePath("/dashboard");
 }
 

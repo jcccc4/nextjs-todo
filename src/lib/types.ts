@@ -28,17 +28,14 @@ export type dataProps = {
   email: string;
   boardName: string | undefined;
 };
-export type board = { id: string; boardName: string; email: string | null };
 
+//use extends or what is available in the typescript
 export type optimisticArguments = {
-  task?: dataProps;
-  formerBoardName?: string;
-  formerOrder?: number;
-  cards?: dataProps[];
-  id?: string;
-  boardName?: string | undefined;
+  data: dataProps | undefined;
+  newBoardName?: string;
+  newOrder?: number;
+
   action: string;
-  order?: number;
 };
 
 export type addTodoProps = {

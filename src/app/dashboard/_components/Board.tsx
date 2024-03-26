@@ -5,29 +5,43 @@ import { dataProps, optimisticArguments } from "@/lib/types";
 
 const Board = ({ tasks }: { tasks: dataProps[] }) => {
   const [optimisticTasks, addOptimisticTasks] = useOptimistic(
-    tasks,
+    tasks.sort((a, b) => a.order - b.order),
     (state: dataProps[], optimisticState: optimisticArguments) => {
       switch (optimisticState.action) {
         case "changeBoard":
-          const remainingData = state.filter(
-            (data) => data.boardName !== optimisticState.boardName
-          );
-          const mappingData = state
-            .filter((data) => data.boardName === optimisticState.boardName)
-            .sort((a, b) => a.order - b.order)
-            .map((data, index) => {
-              if (optimisticState.formerOrder !== undefined) {
-                return { ...data, order: optimisticState.formerOrder + index };
+          const newBoard = state
+            .map((data) => {
+              if (
+                optimisticState.data &&
+                optimisticState.data.id &&
+                optimisticState.newOrder &&
+                data.id === optimisticState.data.id
+              ) {
+                return {
+                  ...data,
+                  boardName: optimisticState.newBoardName,
+                  order: optimisticState.newOrder,
+                };
               }
+
+              if (
+                optimisticState.data &&
+                data.boardName === optimisticState.data.boardName &&
+                data.order > optimisticState.data.order
+              ) {
+                return { ...data, order: --data.order };
+              }
+
               return data;
-            });
-          console.log([...remainingData, ...mappingData]);
-          return [...remainingData, ...mappingData];
+            })
+            .sort((a, b) => a.order - b.order);
+
+          return newBoard;
         case "addTask":
-          if (optimisticState.task == undefined) {
+          if (optimisticState.data == undefined) {
             return state;
           }
-          return [...state, optimisticState.task];
+          return [...state, optimisticState.data];
       }
 
       return state;
@@ -35,7 +49,7 @@ const Board = ({ tasks }: { tasks: dataProps[] }) => {
   );
   const filterArray = (item: dataProps, boardName: string) =>
     item.boardName === boardName;
-  //Create an array of unique board names
+  //Create an array of unique board name to filter it
   return (
     <div className="ml-4 flex gap-4">
       <Column
@@ -54,17 +68,6 @@ const Board = ({ tasks }: { tasks: dataProps[] }) => {
         boardName={"Completed"}
         cards={optimisticTasks}
       />
-
-      {/* {board.map((board: board) => (
-        <Column
-          filteredData={optimisticTasks.filter((item) =>
-            filterArray(item, board.boardName )
-          )}
-          addOptimisticTasks={addOptimisticTasks}
-          boardName={board.boardName || ""}
-          cards={optimisticTasks}
-        />
-      ))} */}
     </div>
   );
 };
