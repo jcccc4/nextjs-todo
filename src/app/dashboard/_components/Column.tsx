@@ -1,21 +1,16 @@
 import React, { useTransition } from "react";
 import Card from "./Card";
-import { dataProps, optimisticArguments } from "@/lib/types";
+import { BoardProps, dataProps, optimisticArguments } from "@/lib/types";
 import { changeBoard } from "@/data-access/todoActions";
 import AddTodo from "@/app/dashboard/_actions/AddTodo";
-type Props = {
-  filteredData: dataProps[];
-  addOptimisticTasks: (data: optimisticArguments) => void;
-  boardName: string;
-  cards: dataProps[];
-};
+
 const Column = ({
   filteredData,
-  addOptimisticTasks,
+  setOptimisticTasks,
   boardName,
   cards,
-}: Props) => {
-  const [isPending, startTransition] = useTransition();
+}: BoardProps) => {
+  const [_, startTransition] = useTransition();
   const onDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     (e.currentTarget as HTMLDivElement).classList.add("border-red-500");
 
@@ -27,10 +22,10 @@ const Column = ({
   ) => {
     (e.currentTarget as HTMLDivElement).classList.remove("border-red-500");
     const id = e.dataTransfer.getData("id");
-    const data = cards.find((item) => item.id === id);
+    const task = cards.find((item) => item.id === id);
     const newOrder = filteredData.length + 1;
     const datas = {
-      data,
+      task,
       newBoardName: boardName,
       newOrder,
       cards,
@@ -38,10 +33,10 @@ const Column = ({
     const isBoardSame = cards.some(
       (item) => item.id === id && item.boardName === boardName
     );
-    if (!isBoardSame) {
+    if (!isBoardSame && task) {
       startTransition(() =>
-        addOptimisticTasks({
-          data,
+      setOptimisticTasks({
+          task,
           newBoardName: boardName,
           newOrder,
           action: "changeBoard",
@@ -55,6 +50,7 @@ const Column = ({
   return (
     <div
       className="w-64 h-96 border border-blue-700"
+      draggable="true"
       onDragOver={onDragOver}
       onDragLeave={(e) =>
         (e.currentTarget as HTMLDivElement).classList.remove("border-red-500")
@@ -66,22 +62,25 @@ const Column = ({
         className="flex flex-col gap-2"
         key={`${boardName}-${filteredData.length}`}
       >
-        {filteredData
-          .sort((a, b) => {
-            return a.order - b.order;
-          })
-          .map((item: dataProps) => (
+        {filteredData.map((item: dataProps) => {
+          const metadata = {
+            content: item.content,
+            id: item.id,
+            order: item.order,
+            board: boardName,
+          };
+          return (
             <Card
-              description={item.content}
-              id={item.id}
-              order={item.order}
               key={item.id}
-              board={boardName}
+              metadata={metadata}
+              setOptimisticTasks={setOptimisticTasks}
+              filteredTasks={filteredData}
             />
-          ))}
+          );
+        })}
         <AddTodo
           boardName={boardName}
-          addOptimisticTasks={addOptimisticTasks}
+          setOptimisticTasks={setOptimisticTasks}
           taskLength={filteredData.length}
         />
       </ul>

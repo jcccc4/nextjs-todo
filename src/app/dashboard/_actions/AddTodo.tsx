@@ -5,32 +5,34 @@ import { addTodoProps } from "@/lib/types";
 import { useSession } from "next-auth/react";
 import { v4 as uuidv4 } from "uuid";
 
-function AddTodo({ boardName, addOptimisticTasks, taskLength }: addTodoProps) {
+function AddTodo({ boardName, setOptimisticTasks, taskLength }: addTodoProps) {
   const { data: session } = useSession();
   const createTask = async (formData: FormData) => {
     const id = formData.get("id") as string;
     const content = formData.get("input") as string;
     const boardName = formData.get("boardName") as string;
-    const email = session?.user.email || "";
+    const email = formData.get("email") as string;
     const order = taskLength + 1;
-
-    addOptimisticTasks({
+    const task = {
+      id,
+      order,
+      content,
+      email,
+      boardName,
+    };
+    setOptimisticTasks({
       action: "addTask",
-      data: {
-        id,
-        order,
-        content,
-        email,
-        boardName,
-      },
+      task,
     });
-    await createAction(formData, { email, order });
+
+    await createAction(task);
   };
   return (
     <form action={createTask} className=" mx-2">
       <input name="boardName" type="hidden" value={boardName} />
       <input name="id" type="hidden" value={uuidv4()} />
-      <input name="id" type="hidden" value={uuidv4()} />
+      <input name="email" type="hidden" value={session?.user.email || ""} />
+      <input name="email" type="hidden" value={session?.user.email || ""} />
       <input
         id="createTask"
         name="input"

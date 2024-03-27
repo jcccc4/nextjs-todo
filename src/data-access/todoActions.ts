@@ -16,34 +16,28 @@ export async function getData() {
       email: userEmail || "",
     },
     orderBy: {
-      id: "asc",
+      order: "asc",
     },
   });
   revalidatePath("/");
   return data;
 }
 
-export async function createAction(
-  formData: FormData,
-  { email, order }: { email: string; order: number }
-) {
-  const id = formData.get("id") as string;
-  const input = formData.get("input") as string;
-  const boardName = formData.get("boardName") as string;
-
-  if (!input.trim()) {
+export async function createAction(data: dataProps) {
+  if (!data.content?.trim()) {
     return;
   }
 
   await prisma.post.create({
     data: {
-      id,
-      order,
-      email,
-      content: input,
-      boardName,
+      id: data.id,
+      order: data.order,
+      email: data.email,
+      content: data.content,
+      boardName: data.boardName || "",
     },
   });
+
   revalidatePath("/dashboard");
 }
 
@@ -62,14 +56,36 @@ export async function editAction(formData: FormData) {
   revalidatePath("/dashboard");
 }
 
-export async function deleteAction(formData: FormData) {
-  const id = formData.get("inputId") as string;
+export async function deleteAction(formData: FormData, tasks: dataProps[]) {
+  const task = tasks.find(
+    (single) => single.id === (formData.get("inputId") as string)
+  );
+ 
 
-  await prisma.post.delete({
-    where: {
-      id: id,
-    },
-  });
+  if (task) {
+    const batch = tasks
+      .filter((single) => single.order > task.order)
+      .map((single) =>
+        prisma.post.update({
+          where: {
+            id: single.id,
+          },
+          data: {
+            order: --single.order,
+          },
+        })
+      );
+
+    await prisma.$transaction([
+      prisma.post.delete({
+        where: {
+          id: task?.id,
+        },
+      }),
+      ...batch,
+    ]);
+  }
+
   revalidatePath("/dashboard");
 }
 
@@ -85,12 +101,12 @@ export async function getBoard() {
   return todo;
 }
 export async function changeBoard({
-  data,
+  task,
   newBoardName,
   newOrder,
   cards,
 }: {
-  data: dataProps | undefined;
+  task: dataProps | undefined;
   newBoardName: string;
   newOrder: number;
   cards: dataProps[];
@@ -98,7 +114,7 @@ export async function changeBoard({
   const batch = cards
     .filter((single) => {
       return (
-        data && data.boardName === data.boardName && single.order > data.order
+        task && task.boardName === task.boardName && single.order > task.order
       );
     })
     .map((data) => {
@@ -111,11 +127,11 @@ export async function changeBoard({
         },
       });
     });
-  if (data) {
+  if (task) {
     await prisma.$transaction([
       prisma.post.update({
         where: {
-          id: data.id,
+          id: task.id,
         },
         data: {
           order: newOrder,

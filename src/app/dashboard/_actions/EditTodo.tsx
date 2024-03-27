@@ -1,9 +1,9 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import { editAction } from "@/data-access/todoActions";
-import { Props } from "@/lib/types";
+import { dataProps } from "@/lib/types";
 
-function EditTodo({ data }: Props) {
+function EditTodo({ data }: { data: dataProps }) {
   const formRef = useRef<HTMLFormElement>(null);
   const [value, setValue] = useState(data.content || "");
 

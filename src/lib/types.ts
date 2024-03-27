@@ -17,31 +17,31 @@ export const loginSchema = z.object({
   password: z.string().min(1, "Password is required"),
 });
 
-export type Props = {
-  data: dataProps;
-};
-
 export type dataProps = {
   id: string;
   order: number;
-  content: string | null;
+  content: string;
   email: string;
-  boardName: string | undefined;
+  boardName: string;
 };
 
-//use extends or what is available in the typescript
 export type optimisticArguments = {
-  data: dataProps | undefined;
+  task: dataProps;
+  action: string;
   newBoardName?: string;
   newOrder?: number;
-
-  action: string;
 };
 
 export type addTodoProps = {
-  boardName?: string | undefined;
-  addOptimisticTasks: (data: optimisticArguments) => void;
+  boardName: string;
+  setOptimisticTasks: (data: optimisticArguments) => void;
   taskLength: number;
+};
+export type BoardProps = {
+  filteredData: dataProps[];
+  setOptimisticTasks: (data: optimisticArguments) => void;
+  boardName: string;
+  cards: dataProps[];
 };
 export type TSignUpSchema = z.infer<typeof signUpSchema>;
 export type TLoginSchema = z.infer<typeof loginSchema>;
