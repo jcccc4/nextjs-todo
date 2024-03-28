@@ -37,7 +37,6 @@ export async function createAction(data: dataProps) {
       boardName: data.boardName || "",
     },
   });
-
   revalidatePath("/dashboard");
 }
 
@@ -53,33 +52,33 @@ export async function editAction(formData: FormData) {
       content: content,
     },
   });
-  revalidatePath("/dashboard");
 }
 
 export async function deleteAction(formData: FormData, tasks: dataProps[]) {
-  const task = tasks.find(
-    (single) => single.id === (formData.get("inputId") as string)
-  );
- 
-
+  const id = formData.get("inputId") as string;
+  const task = tasks.find((single) => single.id === id);
+  console.log(task);
   if (task) {
     const batch = tasks
-      .filter((single) => single.order > task.order)
-      .map((single) =>
-        prisma.post.update({
+      .filter(
+        (single) =>
+          single.boardName === task.boardName && single.order > task.order
+      )
+      .map((single) => {
+        return prisma.post.update({
           where: {
             id: single.id,
           },
           data: {
             order: --single.order,
           },
-        })
-      );
+        });
+      });
 
     await prisma.$transaction([
       prisma.post.delete({
         where: {
-          id: task?.id,
+          id,
         },
       }),
       ...batch,
@@ -127,6 +126,7 @@ export async function changeBoard({
         },
       });
     });
+
   if (task) {
     await prisma.$transaction([
       prisma.post.update({
@@ -141,6 +141,7 @@ export async function changeBoard({
       ...batch,
     ]);
   }
+
   revalidatePath("/dashboard");
 }
 
@@ -152,5 +153,6 @@ export async function createBoard(boardName: string, email: string) {
       email,
     },
   });
+
   revalidatePath("/dashboard");
 }

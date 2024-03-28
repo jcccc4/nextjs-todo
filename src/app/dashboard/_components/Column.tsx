@@ -63,16 +63,11 @@ const Column = ({
         key={`${boardName}-${filteredData.length}`}
       >
         {filteredData.map((item: dataProps) => {
-          const metadata = {
-            content: item.content,
-            id: item.id,
-            order: item.order,
-            board: boardName,
-          };
+         
           return (
             <Card
               key={item.id}
-              metadata={metadata}
+              metadata={item}
               setOptimisticTasks={setOptimisticTasks}
               filteredTasks={filteredData}
             />

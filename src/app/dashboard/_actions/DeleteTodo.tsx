@@ -5,23 +5,22 @@ import { dataProps, optimisticArguments } from "@/lib/types";
 
 function DeleteTodo({
   id,
-  order,
   tasks,
   setOptimisticTasks,
 }: {
   id: string;
-  order: number;
   tasks: dataProps[];
   setOptimisticTasks: (data: optimisticArguments) => void;
 }) {
   const deleteTask = async (formData: FormData) => {
     const task = tasks.find((single) => single.id === id);
-    console.log(task);
+
     if (task) {
       const argument = {
         task,
         action: "deleteTask",
       };
+      
       setOptimisticTasks(argument);
       await deleteAction(formData, tasks);
     }
