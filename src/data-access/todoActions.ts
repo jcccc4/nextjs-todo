@@ -23,24 +23,31 @@ export async function getData() {
   return data;
 }
 
-export async function createAction(data: dataProps) {
-  if (!data.content?.trim()) {
+export async function createAction({
+  id,
+  order,
+  email,
+  title,
+  boardName,
+}: dataProps) {
+  if (!title?.trim()) {
     return;
   }
 
   await prisma.post.create({
     data: {
-      id: data.id,
-      order: data.order,
-      email: data.email,
-      content: data.content,
-      boardName: data.boardName || "",
+      id,
+      order,
+      email,
+      title,
+      boardName,
+      description: "",
     },
   });
   revalidatePath("/dashboard");
 }
 
-export async function editAction(formData: FormData) {
+export async function editTitleAction(formData: FormData) {
   const id = formData.get("editId") as string;
   const content = formData.get("editValue") as string;
 
@@ -49,41 +56,50 @@ export async function editAction(formData: FormData) {
       id: id,
     },
     data: {
-      content: content,
+      title: content,
     },
   });
 }
 
-export async function deleteAction(formData: FormData, tasks: dataProps[]) {
-  const id = formData.get("inputId") as string;
-  const task = tasks.find((single) => single.id === id);
-  console.log(task);
-  if (task) {
-    const batch = tasks
-      .filter(
-        (single) =>
-          single.boardName === task.boardName && single.order > task.order
-      )
-      .map((single) => {
-        return prisma.post.update({
-          where: {
-            id: single.id,
-          },
-          data: {
-            order: --single.order,
-          },
-        });
-      });
+export async function editDescriptionAction(formData: FormData) {
+  const id = formData.get("editId") as string;
+  const content = formData.get("editValue") as string;
 
-    await prisma.$transaction([
-      prisma.post.delete({
+  await prisma.post.update({
+    where: {
+      id: id,
+    },
+    data: {
+      title: content,
+    },
+  });
+}
+
+export async function deleteAction(tasks: dataProps[], task: dataProps) {
+  const batch = tasks
+    .filter(
+      (single) =>
+        single.boardName === task.boardName && single.order > task.order
+    )
+    .map((single) => {
+      return prisma.post.update({
         where: {
-          id,
+          id: single.id,
         },
-      }),
-      ...batch,
-    ]);
-  }
+        data: {
+          order: --single.order,
+        },
+      });
+    });
+
+  await prisma.$transaction([
+    prisma.post.delete({
+      where: {
+        id: task.id,
+      },
+    }),
+    ...batch,
+  ]);
 
   revalidatePath("/dashboard");
 }

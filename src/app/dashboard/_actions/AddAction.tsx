@@ -5,18 +5,23 @@ import { addTodoProps } from "@/lib/types";
 import { useSession } from "next-auth/react";
 import { v4 as uuidv4 } from "uuid";
 
-function AddTodo({ boardName, setOptimisticTasks, taskLength }: addTodoProps) {
+function AddAction({
+  boardName,
+  setOptimisticTasks,
+  taskLength,
+}: addTodoProps) {
   const { data: session } = useSession();
   const createTask = async (formData: FormData) => {
     const id = formData.get("id") as string;
-    const content = formData.get("input") as string;
+    const title = formData.get("input") as string;
     const boardName = formData.get("boardName") as string;
     const email = formData.get("email") as string;
     const order = taskLength + 1;
     const task = {
       id,
       order,
-      content,
+      title,
+      description: "",
       email,
       boardName,
     };
@@ -44,4 +49,4 @@ function AddTodo({ boardName, setOptimisticTasks, taskLength }: addTodoProps) {
   );
 }
 
-export default AddTodo;
+export default AddAction;

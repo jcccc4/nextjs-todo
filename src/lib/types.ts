@@ -20,7 +20,8 @@ export const loginSchema = z.object({
 export type dataProps = {
   id: string;
   order: number;
-  content: string;
+  title: string;
+  description: string;
   email: string;
   boardName: string;
 };

@@ -66,11 +66,12 @@ model Board {
 }
 
 model Post {
-  id        String @unique
-  content   String
-  order     Int
-  email     String
-  author    User   @relation(fields: [email], references: [email])
-  boardName String
-  board     Board  @relation(fields: [boardName], references: [boardName])
+  id          String @unique
+  title       String
+  description String
+  order       Int
+  email       String
+  author      User   @relation(fields: [email], references: [email])
+  boardName   String
+  board       Board  @relation(fields: [boardName], references: [boardName])
 }

@@ -1,8 +1,9 @@
-import React, { useTransition } from "react";
+import React, { useState, useTransition } from "react";
 import Card from "./Card";
-import { BoardProps, dataProps, optimisticArguments } from "@/lib/types";
+import { BoardProps, dataProps } from "@/lib/types";
 import { changeBoard } from "@/data-access/todoActions";
-import AddTodo from "@/app/dashboard/_actions/AddTodo";
+import AddTodo from "@/app/dashboard/_actions/AddAction";
+import CardModal from "./CardModal";
 
 const Column = ({
   filteredData,
@@ -11,16 +12,20 @@ const Column = ({
   cards,
 }: BoardProps) => {
   const [_, startTransition] = useTransition();
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
   const onDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     (e.currentTarget as HTMLDivElement).classList.add("border-red-500");
 
     e.preventDefault();
   };
+
   const onDrop = async (
     e: React.DragEvent<HTMLDivElement>,
     boardName: string
   ) => {
     (e.currentTarget as HTMLDivElement).classList.remove("border-red-500");
+
     const id = e.dataTransfer.getData("id");
     const task = cards.find((item) => item.id === id);
     const newOrder = filteredData.length + 1;
@@ -35,7 +40,7 @@ const Column = ({
     );
     if (!isBoardSame && task) {
       startTransition(() =>
-      setOptimisticTasks({
+        setOptimisticTasks({
           task,
           newBoardName: boardName,
           newOrder,
@@ -45,6 +50,10 @@ const Column = ({
 
       await changeBoard(datas);
     }
+  };
+
+  const onClick = (event: React.MouseEvent<HTMLLIElement | HTMLDivElement>) => {
+    setIsModalVisible(!isModalVisible);
   };
 
   return (
@@ -62,15 +71,22 @@ const Column = ({
         className="flex flex-col gap-2"
         key={`${boardName}-${filteredData.length}`}
       >
-        {filteredData.map((item: dataProps) => {
-         
+        {filteredData.map((item: dataProps, index: number) => {
           return (
-            <Card
-              key={item.id}
-              metadata={item}
-              setOptimisticTasks={setOptimisticTasks}
-              filteredTasks={filteredData}
-            />
+            <div key={`${item.id}${index}`}>
+              <Card
+                metadata={item}
+                filteredTasks={filteredData}
+                onClick={onClick}
+              />
+              <CardModal
+                show={isModalVisible}
+                onClick={onClick}
+                task={item}
+                tasks={cards}
+                setOptimisticTasks={setOptimisticTasks}
+              />
+            </div>
           );
         })}
         <AddTodo
