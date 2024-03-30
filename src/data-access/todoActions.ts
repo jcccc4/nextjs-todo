@@ -61,6 +61,20 @@ export async function editTitleAction(formData: FormData) {
   });
 }
 
+export async function editContentAction(formData: FormData) {
+  const id = formData.get("editId") as string;
+  const description = formData.get("editValue") as string;
+
+  await prisma.post.update({
+    where: {
+      id: id,
+    },
+    data: {
+      description: description,
+    },
+  });
+}
+
 export async function editDescriptionAction(formData: FormData) {
   const id = formData.get("editId") as string;
   const content = formData.get("editValue") as string;

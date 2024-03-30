@@ -3,6 +3,7 @@ import React, { useRef } from "react";
 import DeleteAction from "../_actions/DeleteAction";
 import EditTitlteAction from "../_actions/EditTitleAction";
 import EditTitleAction from "../_actions/EditTitleAction";
+import EditContentAction from "../_actions/EditContentAction";
 
 const CardModal = ({
   show,
@@ -33,8 +34,9 @@ const CardModal = ({
         className="fixed top-0 left-0 w-full h-full bg-[rgb(0,0,0,0.6)]"
         onClick={onClick}
       ></section>
-      <section className="relative  h-5/6 w-full max-w-[768px] bg-white opacity-100 ">
-        <EditTitleAction task={task} />
+        <section className="relative  h-5/6 w-full max-w-[768px] bg-white opacity-100 ">
+          <EditTitleAction task={task} />
+          <EditContentAction task={task} />
         {/* <p>{task.description}</p> */}
         <DeleteAction
           task={task}
