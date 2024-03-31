@@ -37,7 +37,6 @@ const CardModal = ({
         <section className="relative  h-5/6 w-full max-w-[768px] bg-white opacity-100 ">
           <EditTitleAction task={task} />
           <EditContentAction task={task} />
-        {/* <p>{task.description}</p> */}
         <DeleteAction
           task={task}
           tasks={tasks}

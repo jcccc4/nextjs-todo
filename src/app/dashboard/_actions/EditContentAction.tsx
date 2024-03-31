@@ -8,7 +8,6 @@ function EditContentAction({ task }: { task: dataProps }) {
   const [value, setValue] = useState(task.description.trim());
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    console.log(e.target.value, "value");
     setValue(e.target.value);
     formRef?.current?.requestSubmit();
   };
