@@ -7,6 +7,7 @@ import {
   optimisticDeleteTask,
   optimisticChangeBoard,
 } from "@/app/dashboard/_actions/_optimisticActions/optimisticActions";
+import Button from "@/components/ui/Button";
 
 const Board = ({
   tasks,
@@ -39,17 +40,21 @@ const Board = ({
 
   return (
     <div className="ml-4 flex gap-4">
-      {boards.map((board, index) => (
-        <Column
-          key={`${board}${index}`}
-          filteredData={optimisticTasks.filter((item) =>
-            filterArray(item, board.boardName)
-          )}
-          setOptimisticTasks={setOptimisticTasks}
-          boardName={board.boardName}
-          cards={optimisticTasks}
-        />
-      ))}
+      {boards ? (
+        boards.map((board, index) => (
+          <Column
+            key={`${board}${index}`}
+            filteredData={optimisticTasks.filter((item) =>
+              filterArray(item, board.boardName)
+            )}
+            setOptimisticTasks={setOptimisticTasks}
+            boardName={board.boardName}
+            cards={optimisticTasks}
+          />
+        ))
+      ) : (
+        <Button type="button">Add Board</Button>
+      )}
     </div>
   );
 };

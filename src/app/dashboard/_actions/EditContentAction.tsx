@@ -6,9 +6,12 @@ import { dataProps } from "@/lib/types";
 function EditContentAction({ task }: { task: dataProps }) {
   const formRef = useRef<HTMLFormElement>(null);
   const [value, setValue] = useState(task.description.trim());
+  const [isFocused, setIsFocused] = useState(false); // Track focus state
 
-  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setValue(e.target.value);
+  const handleMouseEnter = () => setIsFocused(true);
+  const handleMouseLeave = () => setIsFocused(false);
+  const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setValue(event.target.value);
     formRef?.current?.requestSubmit();
   };
 
@@ -24,6 +27,9 @@ function EditContentAction({ task }: { task: dataProps }) {
         defaultValue={value}
         className="focus:outline-none "
         onChange={handleChange}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        placeholder={isFocused ? "" : "Description"}
       />
     </form>
   );

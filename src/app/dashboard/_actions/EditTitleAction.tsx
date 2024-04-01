@@ -16,12 +16,14 @@ function EditTitleAction({ task }: { task: dataProps }) {
   return (
     <form action={editTitleAction} ref={formRef} className="w-full flex h-6  ">
       <input type="hidden" name="editId" value={task.id} />
-      <input
-        name="editValue"
-        defaultValue={value}
-        className="focus:outline-none "
-        onChange={handleChange}
-      />
+      <h1 className="font-bold text-lg">
+        <input
+          name="editValue"
+          defaultValue={value}
+          className="focus:outline-none "
+          onChange={handleChange}
+        />
+      </h1>
     </form>
   );
 }

@@ -2,6 +2,7 @@ import { IconX } from "@tabler/icons-react";
 import React from "react";
 import { deleteAction } from "@/data-access/todoActions";
 import { dataProps, optimisticArguments } from "@/lib/types";
+import Button from "@/components/ui/Button";
 
 function DeleteAction({
   task,
@@ -23,7 +24,7 @@ function DeleteAction({
 
   return (
     <form action={deleteTask} className="w-6 h-6">
-      <button type="submit">Delete</button>
+      <Button type="submit">Delete</Button>
     </form>
   );
 }
