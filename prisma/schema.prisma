@@ -43,35 +43,51 @@ model VerificationToken {
 }
 
 model User {
-  id            Int       @id @default(autoincrement())
+  id            Int         @id @default(autoincrement())
   name          String?
-  email         String    @unique
+  email         String      @unique
   emailVerified DateTime?
   image         String?
-  username      String?   @unique
+  username      String?     @unique
   password      String?
-  createdAt     DateTime  @default(now())
+  createdAt     DateTime    @default(now())
   accounts      Account[]
-  Board         Board[]
-  Post          Post[]
+  TaskBoard     TaskBoard[]
+  Habit         Habit[]
   sessions      Session[]
 }
 
-model Board {
-  id        String  @unique
-  boardName String  @unique
+model TaskBoard {
+  id        String @unique
+  boardName String @unique
   email     String
   author    User   @relation(fields: [email], references: [email])
-  Post      Post[]
 }
 
-model Post {
-  id          String @unique
-  title       String
-  description String
-  order       Int
-  email       String
-  author      User   @relation(fields: [email], references: [email])
-  boardName   String
-  board       Board  @relation(fields: [boardName], references: [boardName])
+model Habit {
+  id     String @unique
+  title  String
+  email  String
+  author User   @relation(fields: [email], references: [email])
+  frequency       HabitFrequency
+  order           Int
+  WeeklyFrequency WeeklyFrequency?
+}
+
+enum HabitFrequency {
+  DAILY
+  WEEKLY
+}
+
+model WeeklyFrequency {
+  id        String  @unique
+  habitId   String  @unique
+  habit     Habit   @relation(fields: [habitId], references: [id])
+  monday    Boolean
+  tuesday   Boolean
+  wednesday Boolean
+  thursday  Boolean
+  friday    Boolean
+  saturday  Boolean
+  sunday    Boolean
 }

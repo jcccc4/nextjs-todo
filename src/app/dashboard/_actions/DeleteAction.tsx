@@ -1,7 +1,7 @@
 import { IconX } from "@tabler/icons-react";
 import React from "react";
 import { deleteAction } from "@/data-access/todoActions";
-import { dataProps, optimisticArguments } from "@/lib/types";
+import { habit, optimisticArguments } from "@/lib/types";
 import Button from "@/components/ui/Button";
 
 function DeleteAction({
@@ -9,8 +9,8 @@ function DeleteAction({
   tasks,
   setOptimisticTasks,
 }: {
-  task: dataProps;
-  tasks: dataProps[];
+  task: habit;
+  tasks: habit[];
   setOptimisticTasks: (data: optimisticArguments) => void;
 }) {
   //add prompt that it is deleted

@@ -1,9 +1,9 @@
 "use client";
 import React, { useRef, useState } from "react";
 import { editTitleAction } from "@/data-access/todoActions";
-import { dataProps } from "@/lib/types";
+import { habit } from "@/lib/types";
 
-function EditTitleAction({ task }: { task: dataProps }) {
+function EditTitleAction({ task }: { task: habit }) {
   const formRef = useRef<HTMLFormElement>(null);
   const [value, setValue] = useState(task.title.trim());
 

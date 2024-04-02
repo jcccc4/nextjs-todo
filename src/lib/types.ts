@@ -1,3 +1,4 @@
+import { $Enums } from "@prisma/client";
 import { z } from "zod";
 
 export const signUpSchema = z
@@ -17,17 +18,26 @@ export const loginSchema = z.object({
   password: z.string().min(1, "Password is required"),
 });
 
-export type dataProps = {
+export type habit = {
   id: string;
-  order: number;
   title: string;
-  description: string;
   email: string;
-  boardName: string;
+  frequency: $Enums.HabitFrequency;
+  order: number;
+};
+
+export type WeeklyFrequency = {
+  monday: boolean;
+  tuesday: boolean;
+  wednesday: boolean;
+  thursday: boolean;
+  friday: boolean;
+  saturday: boolean;
+  sunday: boolean;
 };
 
 export type optimisticArguments = {
-  task: dataProps;
+  task: habit;
   action: string;
   newBoardName?: string;
   newOrder?: number;
@@ -39,10 +49,10 @@ export type addTodoProps = {
   taskLength: number;
 };
 export type BoardProps = {
-  filteredData: dataProps[];
+  filteredData: habit[];
   setOptimisticTasks: (data: optimisticArguments) => void;
   boardName: string;
-  cards: dataProps[];
+  cards: habit[];
 };
 export type TSignUpSchema = z.infer<typeof signUpSchema>;
 export type TLoginSchema = z.infer<typeof loginSchema>;

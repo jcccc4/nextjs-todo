@@ -1,38 +1,38 @@
-import { dataProps, optimisticArguments } from "@/lib/types";
+import { habit, optimisticArguments } from "@/lib/types";
 
-export const optimisticChangeBoard = (
-  state: dataProps[],
-  optimisticState: optimisticArguments
-) =>
-  state
-    .map((data) => {
-      if (
-        optimisticState.task &&
-        optimisticState.newOrder &&
-        optimisticState.newBoardName &&
-        data.id === optimisticState.task.id
-      ) {
-        return {
-          ...data,
-          boardName: optimisticState.newBoardName,
-          order: optimisticState.newOrder,
-        };
-      }
+// export const optimisticChangeBoard = (
+//   state: habit[],
+//   optimisticState: optimisticArguments
+// ) =>
+//   state
+//     .map((data) => {
+//       if (
+//         optimisticState.task &&
+//         optimisticState.newOrder &&
+//         optimisticState.newBoardName &&
+//         data.id === optimisticState.task.id
+//       ) {
+//         return {
+//           ...data,
+//           boardName: optimisticState.newBoardName,
+//           order: optimisticState.newOrder,
+//         };
+//       }
 
-      if (
-        optimisticState.task &&
-        data.boardName === optimisticState.task.boardName &&
-        data.order > optimisticState.task.order
-      ) {
-        return { ...data, order: --data.order };
-      }
+//       if (
+//         optimisticState.task &&
+//         data.boardName === optimisticState.task.boardName &&
+//         data.order > optimisticState.task.order
+//       ) {
+//         return { ...data, order: --data.order };
+//       }
 
-      return data;
-    })
-    .sort((a, b) => a.order - b.order);
+//       return data;
+//     })
+//     .sort((a, b) => a.order - b.order);
 
 export const optimisticAddTask = (
-  state: dataProps[],
+  state: habit[],
   optimisticState: optimisticArguments
 ) => {
   if (optimisticState.task == undefined) {
@@ -42,22 +42,19 @@ export const optimisticAddTask = (
 };
 
 export const optimisticDeleteTask = (
-  state: dataProps[],
+  state: habit[],
   optimisticState: optimisticArguments
 ) => {
   const task = state.find((single) => single.id === optimisticState.task?.id);
-  console.log(task)
+  console.log(task);
   if (task) {
     return state
       .filter((single) => single.id !== optimisticState.task.id)
       .map((single) => {
-        if (
-          single.boardName === optimisticState.task.boardName &&
-          single.order > task.order
-        ) {
+        if (single.order > task.order) {
           return { ...single, order: --single.order };
         }
-        return single
+        return single;
       });
   }
 

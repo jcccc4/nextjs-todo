@@ -1,9 +1,8 @@
-import { dataProps, optimisticArguments } from "@/lib/types";
+import { habit, optimisticArguments } from "@/lib/types";
 import React, { useRef } from "react";
 import DeleteAction from "../_actions/DeleteAction";
 import EditTitlteAction from "../_actions/EditTitleAction";
 import EditTitleAction from "../_actions/EditTitleAction";
-import EditContentAction from "../_actions/EditContentAction";
 
 const CardModal = ({
   show,
@@ -14,8 +13,8 @@ const CardModal = ({
 }: {
   show: boolean;
   onClick: (event: React.MouseEvent<HTMLLIElement | HTMLDivElement>) => void;
-  task: dataProps;
-  tasks: dataProps[];
+  task: habit;
+  tasks: habit[];
   setOptimisticTasks: (data: optimisticArguments) => void;
 }) => {
   const formRef = useRef<HTMLDivElement>(null);
@@ -36,7 +35,6 @@ const CardModal = ({
       ></section>
       <section className="relative  h-5/6 w-full max-w-[768px] bg-white opacity-100 p-4 flex flex-col gap-4">
         <EditTitleAction task={task} />
-        <EditContentAction task={task} />
         <DeleteAction
           task={task}
           tasks={tasks}

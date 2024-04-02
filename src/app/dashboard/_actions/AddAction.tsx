@@ -1,5 +1,5 @@
 "use client";
-
+import { HabitFrequency } from "@prisma/client";
 import { createAction } from "@/data-access/todoActions";
 import { addTodoProps } from "@/lib/types";
 import { useSession } from "next-auth/react";
@@ -14,16 +14,14 @@ function AddAction({
   const createTask = async (formData: FormData) => {
     const id = formData.get("id") as string;
     const title = formData.get("input") as string;
-    const boardName = formData.get("boardName") as string;
     const email = formData.get("email") as string;
     const order = taskLength + 1;
     const task = {
       id,
       order,
       title,
-      description: "",
+      frequency: HabitFrequency.DAILY,
       email,
-      boardName,
     };
     setOptimisticTasks({
       action: "addTask",
