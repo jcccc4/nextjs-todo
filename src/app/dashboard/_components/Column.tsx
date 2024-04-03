@@ -3,7 +3,7 @@ import Card from "./Card";
 import { BoardProps, habit } from "@/lib/types";
 import AddTodo from "@/app/dashboard/_actions/AddAction";
 import CardModal from "./CardModal";
-import Button from "@/components/ui/Button";
+import { Button } from "@/components/ui/Button";
 
 const Column = ({
   filteredData,
