@@ -9,11 +9,6 @@ const Card = ({
   filteredTasks: habit[];
   onClick: (event: React.MouseEvent<HTMLLIElement>) => void;
 }) => {
-  // const onDragStart = (event: React.DragEvent<HTMLLIElement>) => {
-  //   event.dataTransfer.setData("id", String(metadata.id));
-  //   event.dataTransfer.setData("order", String(metadata.order));
-
-  // };
 
   return (
     <li

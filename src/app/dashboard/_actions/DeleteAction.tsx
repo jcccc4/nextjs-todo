@@ -1,4 +1,3 @@
-import { IconX } from "@tabler/icons-react";
 import React from "react";
 import { deleteAction } from "@/data-access/todoActions";
 import { habit, optimisticArguments } from "@/lib/types";
