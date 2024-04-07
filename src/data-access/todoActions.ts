@@ -54,20 +54,6 @@ export async function editTitleAction(formData: FormData) {
   });
 }
 
-// export async function editContentAction(formData: FormData) {
-//   const id = formData.get("editId") as string;
-//   const description = formData.get("editValue") as string;
-
-//   await prisma.habit.update({
-//     where: {
-//       id: id,
-//     },
-//     data: {
-//       description: description,
-//     },
-//   });
-// }
-
 export async function editDescriptionAction(formData: FormData) {
   const id = formData.get("editId") as string;
   const content = formData.get("editValue") as string;
@@ -105,72 +91,3 @@ export async function deleteAction(tasks: habit[], task: habit) {
 
   revalidatePath("/dashboard");
 }
-
-// export async function getBoard() {
-//   const session = await getServerSession(authOptions);
-
-//   const todo = await prisma.board.findMany({
-//     where: {
-//       email: session?.user?.email || "",
-//     },
-//   });
-//   revalidatePath("/dashboard");
-//   return todo;
-// }
-// export async function changeBoard({
-//   task,
-//   newBoardName,
-//   newOrder,
-//   cards,
-// }: {
-//   task: dataProps | undefined;
-//   newBoardName: string;
-//   newOrder: number;
-//   cards: dataProps[];
-// }) {
-//   const batch = cards
-//     .filter((single) => {
-//       return (
-//         task && task.boardName === task.boardName && single.order > task.order
-//       );
-//     })
-//     .map((data) => {
-//       return prisma.post.update({
-//         where: {
-//           id: data.id,
-//         },
-//         data: {
-//           order: --data.order,
-//         },
-//       });
-//     });
-
-//   if (task) {
-//     await prisma.$transaction([
-//       prisma.post.update({
-//         where: {
-//           id: task.id,
-//         },
-//         data: {
-//           order: newOrder,
-//           boardName: newBoardName,
-//         },
-//       }),
-//       ...batch,
-//     ]);
-//   }
-
-//   revalidatePath("/dashboard");
-// }
-
-// export async function createBoard(boardName: string, email: string) {
-//   await prisma.board.create({
-//     data: {
-//       id: uuidv4(),
-//       boardName,
-//       email,
-//     },
-//   });
-
-//   revalidatePath("/dashboard");
-// }
