@@ -65,29 +65,22 @@ model TaskBoard {
 }
 
 model Habit {
-  id     String @unique
-  title  String
-  email  String
-  author User   @relation(fields: [email], references: [email])
-  frequency       HabitFrequency
-  order           Int
-  WeeklyFrequency WeeklyFrequency?
+  id        String             @unique
+  title     String
+  email     String
+  author    User               @relation(fields: [email], references: [email])
+  type      HabitFrequencyType // Enum for DAILY or WEEKLY
+  monday    Boolean            @default(false)
+  tuesday   Boolean            @default(false)
+  wednesday Boolean            @default(false)
+  thursday  Boolean            @default(false)
+  friday    Boolean            @default(false)
+  saturday  Boolean            @default(false)
+  sunday    Boolean            @default(false)
+  order     Int
 }
 
-enum HabitFrequency {
+enum HabitFrequencyType {
   DAILY
   WEEKLY
-}
-
-model WeeklyFrequency {
-  id        String  @unique
-  habitId   String  @unique
-  habit     Habit   @relation(fields: [habitId], references: [id])
-  monday    Boolean
-  tuesday   Boolean
-  wednesday Boolean
-  thursday  Boolean
-  friday    Boolean
-  saturday  Boolean
-  sunday    Boolean
 }

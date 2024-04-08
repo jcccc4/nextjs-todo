@@ -1,4 +1,4 @@
-import { $Enums } from "@prisma/client";
+import { HabitFrequencyType } from "@prisma/client";
 import { z } from "zod";
 
 export const signUpSchema = z
@@ -22,11 +22,8 @@ export type habit = {
   id: string;
   title: string;
   email: string;
-  frequency: $Enums.HabitFrequency;
   order: number;
-};
-
-export type WeeklyFrequency = {
+  type: HabitFrequencyType;
   monday: boolean;
   tuesday: boolean;
   wednesday: boolean;
