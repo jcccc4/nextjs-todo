@@ -11,7 +11,6 @@ const Column = ({
   boardName,
   cards,
 }: BoardProps) => {
-
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isHabitModalVisible, setIsHabitModalVisible] = useState(false);
 
@@ -27,7 +26,6 @@ const Column = ({
     <div
       className="w-64 h-96 border border-blue-700"
       draggable="true"
-
       onDragLeave={(e) =>
         (e.currentTarget as HTMLDivElement).classList.remove("border-red-500")
       }
@@ -59,11 +57,13 @@ const Column = ({
           Add Card
         </Button>
         {isHabitModalVisible && (
-          <AddTodo
-            boardName={boardName}
-            setOptimisticTasks={setOptimisticTasks}
-            taskLength={filteredData.length}
-          />
+          <div className="absolute top-0 left-0 bg-stone-500/60 h-full w-full flex justify-center items-center">
+            <AddTodo
+              boardName={boardName}
+              setOptimisticTasks={setOptimisticTasks}
+              taskLength={filteredData.length}
+            />
+          </div>
         )}
       </ul>
     </div>
