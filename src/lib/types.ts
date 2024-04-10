@@ -42,6 +42,7 @@ export type optimisticArguments = {
 
 export type addTodoProps = {
   boardName: string;
+  setIsHabitModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
   setOptimisticTasks: (data: optimisticArguments) => void;
   taskLength: number;
 };

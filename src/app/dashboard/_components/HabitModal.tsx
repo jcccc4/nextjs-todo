@@ -3,7 +3,7 @@ import React, { useRef } from "react";
 import DeleteAction from "../_actions/DeleteAction";
 import EditTitleAction from "../_actions/EditTitleAction";
 
-const CardModal = ({
+const HabitModal = ({
   show,
   onClick,
   task,
@@ -44,4 +44,4 @@ const CardModal = ({
   );
 };
 
-export default CardModal;
+export default HabitModal;

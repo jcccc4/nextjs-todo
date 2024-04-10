@@ -1,4 +1,3 @@
-"use client";
 import { HabitFrequencyType } from "@prisma/client";
 import { createAction } from "@/data-access/todoActions";
 import { addTodoProps } from "@/lib/types";
@@ -11,7 +10,6 @@ import { z } from "zod";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -19,47 +17,135 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/Button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const formSchema = z.object({
-  username: z.string().min(2, {
+  id: z.string().min(2, {
     message: "Username must be at least 2 characters.",
   }),
-});
-
-// 1. Define your form.
-const form = useForm<z.infer<typeof formSchema>>({
-  resolver: zodResolver(formSchema),
-  defaultValues: {
-    username: "",
-  },
+  boardname: z.string(),
+  email: z.string(),
+  title: z.string(),
+  frequency: z.nativeEnum(HabitFrequencyType),
 });
 
 export function AddAction({
   boardName,
+  setIsHabitModalVisible,
   setOptimisticTasks,
   taskLength,
 }: addTodoProps) {
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  const { data: session } = useSession();
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      id: uuidv4(),
+      boardname: boardName,
+      email: session?.user.email || "",
+      title: "",
+    },
+  });
+
+  async function onSubmit({
+    id,
+    title,
+    email,
+    frequency,
+  }: z.infer<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    console.log(values);
+    const order = taskLength + 1;
+    const task = {
+      id,
+      order,
+      title,
+      type: frequency,
+      email,
+      monday: false,
+      tuesday: false,
+      wednesday: false,
+      thursday: false,
+      friday: false,
+      saturday: false,
+      sunday: false,
+    };
+    await createAction(task);
+    setIsHabitModalVisible(false);
   }
+
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="bg-gray-300 w-[350px] p-2"
+      >
         <FormField
           control={form.control}
-          name="username"
+          name="id"
+          render={({ field }) => (
+            <FormItem>
+              <Input type="hidden" placeholder="shadcn" {...field} />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="boardname"
+          render={({ field }) => (
+            <FormItem>
+              <Input type="hidden" placeholder="shadcn" {...field} />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <Input type="hidden" placeholder="shadcn" {...field} />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="title"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Username</FormLabel>
               <FormControl>
                 <Input placeholder="shadcn" {...field} />
               </FormControl>
-              <FormDescription>
-                This is your public display name.
-              </FormDescription>
               <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="frequency"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Frequency</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a verified email to display" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value={HabitFrequencyType.DAILY}>
+                    {HabitFrequencyType.DAILY}
+                  </SelectItem>
+                  <SelectItem value={HabitFrequencyType.WEEKLY}>
+                    {HabitFrequencyType.WEEKLY}
+                  </SelectItem>
+                </SelectContent>
+              </Select>
             </FormItem>
           )}
         />
@@ -70,34 +156,6 @@ export function AddAction({
 }
 
 export default AddAction;
-
-// const { data: session } = useSession();
-//   const createTask = async (formData: FormData) => {
-//     const id = formData.get("id") as string;
-//     const title = formData.get("habit") as string;
-//     const email = formData.get("email") as string;
-//     const order = taskLength + 1;
-//     const task = {
-//       id,
-//       order,
-//       title,
-//       type: HabitFrequencyType.DAILY,
-//       email,
-//       monday: false,
-//       tuesday: false,
-//       wednesday: false,
-//       thursday: false,
-//       friday: false,
-//       saturday: false,
-//       sunday: false,
-//     };
-//     setOptimisticTasks({
-//       action: "addTask",
-//       task,
-//     });
-
-//     await createAction(task);
-//   };
 
 // <Form action={createTask} className="mx-2">
 //   <Input name="boardName" type="hidden" value={boardName} />

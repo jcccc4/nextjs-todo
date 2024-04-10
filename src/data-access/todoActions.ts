@@ -23,7 +23,20 @@ export async function getData() {
   return data;
 }
 
-export async function createAction({ id, order, email, title }: habit) {
+export async function createAction({
+  id,
+  order,
+  email,
+  title,
+  type,
+  monday,
+  tuesday,
+  wednesday,
+  thursday,
+  friday,
+  saturday,
+  sunday,
+}: habit) {
   if (!title?.trim()) {
     return;
   }
@@ -34,7 +47,14 @@ export async function createAction({ id, order, email, title }: habit) {
       order,
       email,
       title,
-      frequency: "WEEKLY",
+      type,
+      monday,
+      tuesday,
+      wednesday,
+      thursday,
+      friday,
+      saturday,
+      sunday,
     },
   });
   revalidatePath("/dashboard");

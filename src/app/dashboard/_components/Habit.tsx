@@ -1,7 +1,7 @@
 import React from "react";
 import { habit } from "@/lib/types";
 
-const Card = ({
+const Habit = ({
   metadata,
   onClick,
 }: {
@@ -9,7 +9,6 @@ const Card = ({
   filteredTasks: habit[];
   onClick: (event: React.MouseEvent<HTMLLIElement>) => void;
 }) => {
-
   return (
     <li
       className="mx-2 px-2 border border-black flex justify-between"
@@ -21,4 +20,4 @@ const Card = ({
   );
 };
 
-export default Card;
+export default Habit;

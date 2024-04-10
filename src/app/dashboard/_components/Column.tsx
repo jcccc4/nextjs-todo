@@ -1,8 +1,8 @@
 import React, { useState, useTransition } from "react";
-import Card from "./Card";
+import Habit from "./Habit";
 import { BoardProps, habit } from "@/lib/types";
 import AddTodo from "@/app/dashboard/_actions/AddAction";
-import CardModal from "./CardModal";
+import HabitModal from "./HabitModal";
 import { Button } from "@/components/ui/Button";
 
 const Column = ({
@@ -38,12 +38,12 @@ const Column = ({
         {filteredData.map((item: habit, index: number) => {
           return (
             <div key={`${item.id}${index}`}>
-              <Card
+              <Habit
                 metadata={item}
                 filteredTasks={filteredData}
                 onClick={onTaskClick}
               />
-              <CardModal
+              <HabitModal
                 show={isModalVisible}
                 onClick={onTaskClick}
                 task={item}
@@ -57,11 +57,12 @@ const Column = ({
           Add Card
         </Button>
         {isHabitModalVisible && (
-          <div className="absolute top-0 left-0 bg-stone-500/60 h-full w-full flex justify-center items-center">
+          <div className="fixed top-0 left-0 bg-stone-500/60 h-full w-full flex justify-center items-center">
             <AddTodo
               boardName={boardName}
               setOptimisticTasks={setOptimisticTasks}
               taskLength={filteredData.length}
+              setIsHabitModalVisible={setIsHabitModalVisible}
             />
           </div>
         )}
