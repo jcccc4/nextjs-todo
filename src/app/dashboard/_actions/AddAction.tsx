@@ -58,8 +58,6 @@ export function AddAction({
     email,
     frequency,
   }: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
     const order = taskLength + 1;
     const task = {
       id,
@@ -157,9 +155,3 @@ export function AddAction({
 
 export default AddAction;
 
-// <Form action={createTask} className="mx-2">
-//   <Input name="boardName" type="hidden" value={boardName} />
-//   <Input name="id" type="hidden" value={uuidv4()} />
-//   <Input name="email" type="hidden" value={session?.user.email || ""} />
-//   <Input id="createTask" name="habit" type="text" placeholder="Add Task" />
-// </Form>
