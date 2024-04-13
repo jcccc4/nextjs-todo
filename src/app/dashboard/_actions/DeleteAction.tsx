@@ -12,7 +12,6 @@ function DeleteAction({
   tasks: habit[];
   setOptimisticTasks: (data: optimisticArguments) => void;
 }) {
-  //add prompt that it is deleted
   const deleteTask = async () => {
     setOptimisticTasks({
       task,
