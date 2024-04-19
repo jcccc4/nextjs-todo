@@ -1,7 +1,6 @@
 import { habit, optimisticArguments } from "@/lib/types";
 import React, { useRef } from "react";
 import DeleteAction from "../_actions/DeleteAction";
-import EditTitleAction from "../_actions/EditTitleAction";
 
 const HabitModal = ({
   show,
