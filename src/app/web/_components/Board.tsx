@@ -5,7 +5,7 @@ import { habit, optimisticArguments } from "@/lib/types";
 import {
   optimisticAddTask,
   optimisticDeleteTask,
-} from "@/app/dashboard/_actions/_optimisticActions/optimisticActions";
+} from "@/app/web/_actions/_optimisticActions/optimisticActions";
 
 const Board = ({ tasks }: { tasks: habit[] }) => {
   const [optimisticTasks, setOptimisticTasks] = useOptimistic(

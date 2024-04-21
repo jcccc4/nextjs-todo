@@ -1,7 +1,7 @@
 import React from "react";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import Board from "@/app/dashboard/_components/Board";
+import Board from "@/app/web/_components/Board";
 import { getData } from "@/data-access/todoActions";
 
 async function Page() {

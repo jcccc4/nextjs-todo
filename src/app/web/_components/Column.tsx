@@ -1,7 +1,7 @@
 import React, { useState, useTransition } from "react";
 import Habit from "./Habit";
 import { BoardProps, habit } from "@/lib/types";
-import AddTodo from "@/app/dashboard/_actions/AddAction";
+import AddTodo from "@/app/web/_actions/AddAction";
 import HabitModal from "./HabitModal";
 import { Button } from "@/components/ui/Button";
 
