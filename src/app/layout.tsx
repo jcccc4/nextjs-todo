@@ -24,7 +24,6 @@ export default async function RootLayout({
       <body className={inter.className}>
         <Suspense fallback={<div>Loading...</div>}>
           <SessionProvider session={session}>
-            <Header listName="Task List" />
             {children}
           </SessionProvider>
         </Suspense>
