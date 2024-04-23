@@ -9,7 +9,7 @@ type Props = {
 const Header = ({ classname }: Props) => {
   return (
     <header
-      className={`${classname} h-20 px-10 flex items-center justify-between`}
+      className={`${classname} px-10 flex items-center justify-between`}
     >
       <AuthButtons />
     </header>
