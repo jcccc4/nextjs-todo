@@ -3,13 +3,14 @@ import React from "react";
 import AuthButtons from "@/components/ui/AuthButtons";
 
 type Props = {
-  listName: string;
+  classname: string;
 };
 
-const Header = (props: Props) => {
+const Header = ({ classname }: Props) => {
   return (
-    <header className="h-20 px-10 flex items-center justify-between">
-
+    <header
+      className={`${classname} h-20 px-10 flex items-center justify-between`}
+    >
       <AuthButtons />
     </header>
   );
