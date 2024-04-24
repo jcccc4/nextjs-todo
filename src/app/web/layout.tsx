@@ -22,9 +22,8 @@ import React from "react";
 
 const layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <main className="grid grid-cols-[200px_minmax(900px,_1fr)] grid-rows-[80px_1fr] h-screen ">
-      <Header classname="col-start-2" />
-      <div className="flex h-full flex-col gap-2 row-start-1 row-end-3 w-[214px] ">
+    <main className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr] ">
+      <div className="flex h-full flex-col gap-2 row-start-1 row-end-3 ">
         <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
           <Link href="/" className="flex items-center gap-2 font-semibold">
             <Package2 className="h-6 w-6" />
@@ -94,7 +93,7 @@ const layout = ({ children }: { children: React.ReactNode }) => {
           </Card>
         </div>
       </div>
-      <div className="row-start-2 col-start-2">{children}</div>
+      {children}
     </main>
   );
 };

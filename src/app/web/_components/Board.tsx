@@ -22,7 +22,7 @@ const Board = ({ tasks }: { tasks: habit[] }) => {
   );
 
   return (
-    <div className="ml-4 flex gap-4">
+    <div className="flex gap-4">
       <Column
         key={`HabitBoard`}
         filteredData={optimisticTasks}
