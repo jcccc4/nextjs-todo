@@ -5,12 +5,12 @@ import Board from "@/app/web/_components/Board";
 import { getData } from "@/data-access/todoActions";
 
 async function Page() {
-  const session = await getServerSession(authOptions);
-  const tasks = await getData();
+ const tasks = await getData();
 
-  if (session) {
-    return <Board tasks={tasks} />;
-  }
+  // return <Board tasks={tasks} />;
+  return<div>
+    <h1>Habit</h1>
+  </div>
 }
 
 export default Page;
