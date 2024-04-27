@@ -22,8 +22,8 @@ import React from "react";
 
 const layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <main className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr] ">
-      <div className="flex h-full flex-col gap-2 row-start-1 row-end-3 ">
+    <main className="grid min-h-screen w-full grid-cols-[80px_minmax(500px,_1fr)_minmax(auto,500px)] lg:grid-cols-[280px_minmax(480px,_1fr)_minmax(auto,440px)] ">
+      <div className="flex h-full flex-col gap-2 bg-red-50 ">
         <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
           <Link href="/" className="flex items-center gap-2 font-semibold">
             <Package2 className="h-6 w-6" />
@@ -66,6 +66,9 @@ const layout = ({ children }: { children: React.ReactNode }) => {
         </div>
       </div>
       {children}
+      <div className="bg-blue-400 w-full h-full">
+
+      </div>
     </main>
   );
 };

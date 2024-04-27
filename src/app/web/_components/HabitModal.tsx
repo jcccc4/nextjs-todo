@@ -5,15 +5,9 @@ import DeleteAction from "../_actions/DeleteAction";
 const HabitModal = ({
   show,
   onClick,
-  task,
-  setOptimisticTasks,
-  tasks,
 }: {
   show: boolean;
   onClick: (event: React.MouseEvent<HTMLLIElement | HTMLDivElement>) => void;
-  task: habit;
-  tasks: habit[];
-  setOptimisticTasks: (data: optimisticArguments) => void;
 }) => {
   const formRef = useRef<HTMLDivElement>(null);
   if (show) {
@@ -33,11 +27,11 @@ const HabitModal = ({
       ></section>
       <section className="relative  h-5/6 w-full max-w-[768px] bg-white opacity-100 p-4 flex flex-col gap-4">
         {/* <EditTitleAction task={task} /> */}
-        <DeleteAction
+        {/* <DeleteAction
           task={task}
           tasks={tasks}
           setOptimisticTasks={setOptimisticTasks}
-        />
+        /> */}
       </section>
     </div>
   );
