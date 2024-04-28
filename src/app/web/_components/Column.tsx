@@ -43,13 +43,6 @@ const Column = ({
                 filteredTasks={filteredData}
                 onClick={onTaskClick}
               />
-              <HabitModal
-                show={isModalVisible}
-                onClick={onTaskClick}
-                task={item}
-                tasks={cards}
-                setOptimisticTasks={setOptimisticTasks}
-              />
             </div>
           );
         })}

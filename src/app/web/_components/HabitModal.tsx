@@ -1,38 +1,34 @@
-import { habit, optimisticArguments } from "@/lib/types";
 import React, { useRef } from "react";
-import DeleteAction from "../_actions/DeleteAction";
 
 const HabitModal = ({
   show,
-  onClick,
+  handleClick,
 }: {
   show: boolean;
-  onClick: (event: React.MouseEvent<HTMLLIElement | HTMLDivElement>) => void;
+  handleClick: () => void;
 }) => {
   const formRef = useRef<HTMLDivElement>(null);
+
   if (show) {
-    formRef.current?.classList.add("flex");
     formRef.current?.classList.remove("hidden");
+    formRef.current?.classList.add("flex");
   } else {
     formRef.current?.classList.add("hidden");
   }
   return (
     <div
-      ref={formRef}
-      className="hidden fixed top-0 left-0 w-full h-full bg-[rgb(0,0,0,0.3)] justify-center items-center"
+      className={
+        "fixed top-0 left-0 w-full h-full flex justify-center items-center"
+      }
     >
-      <section
-        className="fixed top-0 left-0 w-full h-full bg-[rgb(0,0,0,0.6)]"
-        onClick={onClick}
-      ></section>
-      <section className="relative  h-5/6 w-full max-w-[768px] bg-white opacity-100 p-4 flex flex-col gap-4">
-        {/* <EditTitleAction task={task} /> */}
-        {/* <DeleteAction
-          task={task}
-          tasks={tasks}
-          setOptimisticTasks={setOptimisticTasks}
-        /> */}
-      </section>
+      <div
+        ref={formRef}
+        className={" bg-zinc-950/80 w-full h-full "}
+        onClick={handleClick}
+      ></div>
+      <div className="fixed m-auto  bg-white w-[600px] h-[500px] z-10">
+        qwer
+      </div>
     </div>
   );
 };
