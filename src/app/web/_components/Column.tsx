@@ -3,7 +3,7 @@ import Habit from "./Habit";
 import { BoardProps, habit } from "@/lib/types";
 import AddTodo from "@/app/web/_actions/AddAction";
 import HabitModal from "./HabitModal";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
 
 const Column = ({
   filteredData,

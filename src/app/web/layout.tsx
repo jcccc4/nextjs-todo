@@ -1,12 +1,11 @@
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardHeader,
   CardTitle,
   CardDescription,
   CardContent,
-} from "@/components/ui/Card";
-import Header from "@/components/ui/Header";
+} from "@/components/ui/card";
 import {
   Badge,
   Bell,
