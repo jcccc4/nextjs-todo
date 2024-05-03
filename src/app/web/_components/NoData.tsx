@@ -10,12 +10,12 @@ const NoData = () => {
   };
 
   return (
-    <div className="flex flex-col items-center mt-[180px] gap-1">
-      <h3 className="text-2xl text-[#09090B]">You have no habit listed</h3>
-      <p className="text-xl text-[#696969]">
+    <div className="flex flex-col items-center mt-[200px] gap-1">
+      <h3 className=" text-[#09090B]">You have no habit listed</h3>
+      <p className="text-sm text-[#5E5E5E]">
         Turn wishes into reality. Create habits that last
       </p>
-      <Button onClick={handleClick} className="mt-4">
+      <Button onClick={handleClick} className="mt-3">
         Add Habit
       </Button>
       {showModal && <p>asdf</p>}

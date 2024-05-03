@@ -6,7 +6,7 @@ async function Page() {
 
   return (
     <div>
-      <h1 className="text-2xl ml-6 mt-6">Habit</h1>
+      <h1 className="text-lg ml-4 mt-2">Habit</h1>
       {!tasks ? <p>test</p> : <NoData />}
     </div>
   );
