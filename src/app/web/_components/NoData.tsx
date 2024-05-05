@@ -11,8 +11,8 @@ const NoData = () => {
 
   return (
     <div className="flex flex-col items-center mt-[200px] gap-1">
-      <h3 className=" text-[#09090B]">You have no habit listed</h3>
-      <p className="text-sm text-[#5E5E5E]">
+      <h3 className="font-medium text-[#09090B]">You have no habit listed</h3>
+      <p className="text-sm text-[#5E5E5E] mt-1">
         Turn wishes into reality. Create habits that last
       </p>
       <Button onClick={handleClick} className="mt-3">

@@ -1,13 +1,14 @@
 import { getData } from "@/data-access/todoActions";
 import NoData from "./_components/NoData";
+import Habit from "./_components/Habit";
 
 async function Page() {
   const tasks = await getData();
-
+  console.log(tasks);
   return (
     <div>
       <h1 className="text-lg ml-4 mt-2">Habit</h1>
-      {!tasks ? <p>test</p> : <NoData />}
+      {tasks ? tasks.map((data) => <Habit data={data}/>) : <NoData />}
     </div>
   );
 }
