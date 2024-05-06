@@ -7,7 +7,7 @@ async function Page() {
   return (
     <div>
       <h1 className="text-lg ml-4 mt-2">Habit</h1>
-      {tasks ? tasks.map((data) => <Habit data={data}/>) : <NoData />}
+      {tasks ? tasks.map((data) => <Habit data={data} />) : <NoData />}
     </div>
   );
 }
