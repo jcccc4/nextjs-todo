@@ -4,7 +4,6 @@ import Habit from "./_components/Habit";
 
 async function Page() {
   const tasks = await getData();
-  console.log(tasks);
   return (
     <div>
       <h1 className="text-lg ml-4 mt-2">Habit</h1>
